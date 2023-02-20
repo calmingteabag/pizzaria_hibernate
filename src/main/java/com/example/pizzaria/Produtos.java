@@ -18,6 +18,9 @@ public class Produtos {
     private int preco;
     private String descricao;
 
+    public Produtos() {
+    };
+
     public Produtos(String nome, int preco, String descricao) {
         this.nome = nome;
         this.preco = preco;
