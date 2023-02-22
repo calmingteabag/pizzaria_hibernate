@@ -13,7 +13,6 @@ import org.hibernate.annotations.GenericGenerator;
 public class Produtos {
 
     private int id;
-
     private String nome;
     private int preco;
     private String descricao;
