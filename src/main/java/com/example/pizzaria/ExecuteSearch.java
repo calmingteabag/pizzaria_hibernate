@@ -3,30 +3,39 @@ package com.example.pizzaria;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.query.SelectionQuery;
-
-import jakarta.persistence.criteria.Selection;
-
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
 import org.hibernate.SessionFactory;
 
 public class ExecuteSearch {
+    /*
+     * Essa classe e o metodo searchNameDb faz um query do tipo
+     * SELECT * FROM tabela WHERE coluna = valor
+     * 
+     */
 
-    private String tableName;
-    private String columnName;
+    protected static String tableName;
+    protected static String columnName;
+    protected static Class<Produtos> entity;
 
-    public ExecuteSearch(String tablename, String columnname, Class<Produtos> product) {
+    public ExecuteSearch(String tablename, String columnname, Class<Produtos> entity) {
         // how do I call tablename so it won't be confused with tableName from
         // class variable?
 
-        this.tableName = tablename;
-        this.columnName = columnname;
+        ExecuteSearch.tableName = tablename;
+        ExecuteSearch.columnName = columnname;
+        ExecuteSearch.entity = entity;
     };
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
 
     public String searchNameDb(String search_param) {
         String searchParam = search_param;
@@ -39,10 +48,12 @@ public class ExecuteSearch {
 
         SelectionQuery<Produtos> dbQuery = session.createNativeQuery(
                 searchQuery,
-                Produtos.class);
+                // Produtos.class);
+                this.entity);
 
         List<Produtos> dbSearchResult = dbQuery.getResultList();
         String dbNomeProduto = dbSearchResult.get(0).getNome();
+        session.close();
 
         return dbNomeProduto;
 

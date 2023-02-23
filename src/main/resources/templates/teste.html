@@ -1,14 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" th:href="@{/index.css}">
+    <link rel="stylesheet" type="text/css" src="index.css">
+
     <title>Pedidos</title>
 </head>
 
 <body>
+    <script>
+        function addToCart() {
+            let pizzas = document.getElementById("pizzas").value
+            let pizzas_qty = document.getElementById("quantity").value
+
+
+            localStorage.setItem("pizzas", pizzas_qty)
+        }
+
+    </script>
     <div class="app">
         <div class="app_head">
 
@@ -17,21 +29,29 @@
 
             <div class="app_content_top"></div>
             <div class="app_content_middle">
-                <div class="app_content_middle_title"> A pior pizzaria do universo </div>
+                <div class="app_content_middle_title"> Teste </div>
                 <div class="app_content_middle_search">
-                    <form class="search_form" method="POST" action="#" id="search_form">
-                        <select name="languages" id="lang">
-                            <option value="select">Select a Language</option>
-                            <option value="javascript">JavaScript</option>
-                            <option value="php">PHP</option>
-                            <option value="java">Java</option>
-                            <option value="golang">Golang</option>
-                            <option value="python">Python</option>
-                            <option value="c#">C#</option>
-                            <option value="C++">C++</option>
-                            <option value="erlang">Erlang</option>
+
+                    <form class="search_form" method="POST" action="/pedidos" id="search_form">
+                        <select name="pizzas" id="lang">
+                            <option value="">Select a Pizza flavour</option>
+                            <option value="frango_catupiry">Frango com Catupiry</option>
+                            <option value="calabresa">Calabresa</option>
+                            <option value="portuguesa">Portuguesa</option>
+                            <option value="marguerita">Marguerita</option>
+
                         </select>
-                        <input class="search_button" type="submit" id="search_button" value="Go">
+
+                        <select name="quantity">
+                            <option value="select">Select Quantity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <!-- <button type="button" onclick="addToCart()"> Add to Cart</button> -->
+                        <input class="search_button" type="submit" id="search_button" value="Add to cart">
                     </form>
 
                 </div>
