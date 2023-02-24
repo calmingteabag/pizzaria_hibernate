@@ -24,6 +24,10 @@ public class PizzariaApplication {
 
 	@RequestMapping("/")
 	public String searchDb(Model model) {
+		// Coloca os dados no db
+		DB_Populate populate = new DB_Populate("produtos", "nome_produto", Produtos.class);
+		populate.populateDBMockupData();
+
 		String teste_1 = "É o Tchan!";
 		model.addAttribute("teste_1", teste_1);
 		return "teste";
@@ -38,21 +42,20 @@ public class PizzariaApplication {
 		testPedidos.createTestPedidos();
 		HashMap<String, ArrayList<ArrayList<String>>> pedidos = testPedidos.getPedidos();
 
-		// System.out.println(pedidos);
-		// System.out.println(pedidos.get("pizzas"));
-
 		// teste busca no db
-		ExecuteSearch buscaDb = new ExecuteSearch("produtos_a", "nome_produto", Produtos.class);
-		String dbGetResult = buscaDb.searchNameDb("'marguerita'");
-
+		DB_Search buscaDb = new DB_Search("produtos_a", Produtos.class);
+		String dbGetResult = buscaDb.searchNameDb("nome_produto", "marguerita");
+		String testGetResult = buscaDb.searchNameDb("nome_produto", "maconha");
 		System.out.println(dbGetResult);
+		System.out.println(testGetResult);
 
 		// Calcula os preços baseado no Mockup
 		// ...
-		CalculatePedido calculadora = new CalculatePedido("produtos_a", "nome_produto", Produtos.class, pedidos);
+		PedidosCalculate calculadora = new PedidosCalculate("produtos_a", "nome_produto", Produtos.class, pedidos);
 		int total = calculadora.calculate();
 		System.out.println(total);
 
+		// Test for receiving data from post request
 		String result = request.getParameter("pizzas");
 		String qty = request.getParameter("quantity");
 		System.out.printf("Selected %s pizza(s) of %s", qty, result);
