@@ -15,12 +15,12 @@ public class PedidosCliente {
         ArrayList<ArrayList<String>> sobremesas = new ArrayList<>();
         // initiate a new arraylist that will appended as string: arraylist on pedidos
         // hashmap
-        pizzas.add(new ArrayList<>(List.of("marguerita", "calabreza", "1")));
-        pizzas.add(new ArrayList<>(List.of("napolitana", "none", "4")));
-        pizzas.add(new ArrayList<>(List.of("marguerita", "none", "2")));
+        pizzas.add(new ArrayList<>(List.of("marguerita", "calabresa", "1")));
+        pizzas.add(new ArrayList<>(List.of("portuguesa", "none", "4")));
+        pizzas.add(new ArrayList<>(List.of("mucarela", "none", "2")));
 
         bebidas.add(new ArrayList<>(List.of("guarana", "none", "3")));
-        bebidas.add(new ArrayList<>(List.of("agua_torneira", "none", "1")));
+        bebidas.add(new ArrayList<>(List.of("agua", "none", "1")));
 
         sobremesas.add(new ArrayList<>(List.of("brigadeiro", "none", "10")));
         sobremesas.add(new ArrayList<>(List.of("rapadura", "none", "3")));

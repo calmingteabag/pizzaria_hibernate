@@ -13,6 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 @SpringBootApplication
 // @RestController
 @Controller
@@ -24,8 +28,13 @@ public class PizzariaApplication {
 
 	@RequestMapping("/")
 	public String searchDb(Model model) {
-		// Coloca os dados no db
-		DB_Populate populate = new DB_Populate("produtos", "nome_produto", Produtos.class);
+		/*
+		 * Resolvi colocar o metodo de criacao do DB logo que se abre a pagina. Tenho
+		 * plena consciencia que é um jeito terrivel de fazer isso, mas sem idéias mais
+		 * interessantes no momento.
+		 * 
+		 */
+		DB_Populate populate = new DB_Populate("produtos");
 		populate.populateDBMockupData();
 
 		String teste_1 = "É o Tchan!";
@@ -34,31 +43,66 @@ public class PizzariaApplication {
 	}
 
 	@PostMapping("/pedidos")
-	@ResponseBody
-	public String postBody(HttpServletRequest request) {
+	// @ResponseBody // define se é para ele retornar uma pagina html ou a resposta
+	// literal de alguma
+	// coisa
+	public String postBody(HttpServletRequest request, Model model) throws JsonProcessingException {
+		/*
+		 * Em teoria, os pedidos para esse 'backend' viriam de um post request
+		 * de algum lugar. Por hora, criei um objeto que simula uma lista de
+		 * pedidos de um cliente, que contém varias pizzas, bebidas e doces e a
+		 * busca é feita em cima desse 'mockup'.
+		 */
 
 		// Cria um mockup dos pedidos e coloca em uma "variavel"
 		PedidosCliente testPedidos = new PedidosCliente();
 		testPedidos.createTestPedidos();
 		HashMap<String, ArrayList<ArrayList<String>>> pedidos = testPedidos.getPedidos();
 
-		// teste busca no db
-		DB_Search buscaDb = new DB_Search("produtos_a", Produtos.class);
-		String dbGetResult = buscaDb.searchNameDb("nome_produto", "marguerita");
-		String testGetResult = buscaDb.searchNameDb("nome_produto", "maconha");
-		System.out.println(dbGetResult);
-		System.out.println(testGetResult);
-
 		// Calcula os preços baseado no Mockup
 		// ...
-		PedidosCalculate calculadora = new PedidosCalculate("produtos_a", "nome_produto", Produtos.class, pedidos);
-		int total = calculadora.calculate();
+		PedidosCalculate calculadora = new PedidosCalculate("produtos", "nome_produto", Produtos.class, pedidos);
+		int total = calculadora.calculateTotal("pizzas", "bebidas", "sobremesas");
 		System.out.println(total);
 
 		// Test for receiving data from post request
-		String result = request.getParameter("pizzas");
-		String qty = request.getParameter("quantity");
-		System.out.printf("Selected %s pizza(s) of %s", qty, result);
-		return result;
+		// and searcing on db
+		DB_Search buscaDb = new DB_Search("produtos", Produtos.class);
+		String pizzaFromPost = request.getParameter("pizzas");
+		int precoPizza = buscaDb.searchPriceDb("nome_produto", pizzaFromPost);
+
+		// Test POJO + jackson (@JsonProperty)
+
+		// a parte todaspizzas/bebidas/sobremesas pode ser colocada num
+		// outro metodo que vá adicionandoe calculando automaticamente
+		// o campo de totais...maybe.
+
+		// desafio agora é, depois de instanciado, como eu modifico uma propriedade em
+		// nested, tipo totalpizza, que esta em listagempedido - pizzas[posicao] ?
+
+		ArrayList<Pizzas> todasPizzas = new ArrayList<>();
+		todasPizzas.add(new Pizzas("peperoni", 20, 0));
+		todasPizzas.add(new Pizzas("marguerita", 30, 0));
+
+		ArrayList<Bebidas> todasBebidas = new ArrayList<>();
+		todasBebidas.add(new Bebidas("breja", 5, 0));
+		todasBebidas.add(new Bebidas("coca", 2, 0));
+
+		ArrayList<Sobremesas> todasSobremesas = new ArrayList<>();
+		todasSobremesas.add(new Sobremesas("quindim", 10, 0));
+		todasSobremesas.add(new Sobremesas("doce_leite", 5, 0));
+
+		Pedidos novoPedido = new Pedidos("paul",
+				new ListagemPedido(todasPizzas, todasBebidas, todasSobremesas, 0, 0, 0), 0);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		String json = mapper.writeValueAsString(novoPedido);
+
+		System.out.println(json);
+
+		// System.out.printf("Selected %s pizza(s) of %s", qty, result);
+		model.addAttribute("resultCalculate", precoPizza);
+		model.addAttribute("postReq", pizzaFromPost);
+		return "blank";
 	}
 }

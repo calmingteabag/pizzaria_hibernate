@@ -25,7 +25,7 @@ public class DB_Search {
         DB_Search.entity = entity;
     };
 
-    public String searchNameDb(String column_name, String search_param) {
+    public int searchPriceDb(String column_name, String search_param) {
         String searchParam = search_param;
         String columnName = column_name;
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
@@ -40,15 +40,15 @@ public class DB_Search {
                 searchQuery,
                 DB_Search.entity);
 
-        List<Produtos> dbSearchResult = dbQuery.getResultList();
+        List<Produtos> dbSearchResultList = dbQuery.getResultList();
 
-        if (dbSearchResult.isEmpty()) {
-            return "empty";
+        if (dbSearchResultList.isEmpty()) {
+            return 0;
         } else {
-            String dbNomeProduto = dbSearchResult.get(0).getNome();
+            int dbSearchResult = dbSearchResultList.get(0).getPreco();
             session.close();
 
-            return dbNomeProduto;
+            return dbSearchResult;
         }
 
     }

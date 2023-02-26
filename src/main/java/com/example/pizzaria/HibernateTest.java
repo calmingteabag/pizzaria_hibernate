@@ -1,23 +1,23 @@
 package com.example.pizzaria;
 
-import java.util.List;
+// import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.query.SelectionQuery;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.SessionFactory;
+// import org.hibernate.Session;
+// import org.hibernate.Transaction;
+// import org.hibernate.boot.MetadataSources;
+// import org.hibernate.query.SelectionQuery;
+// import org.hibernate.boot.registry.StandardServiceRegistry;
+// import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+// import org.hibernate.SessionFactory;
 
 public class HibernateTest {
 
     public static void main(String[] args) {
 
-        DB_Search search = new DB_Search("produtos_a", Produtos.class);
-        String result = search.searchNameDb("nome_produto", "marguerita");
+        // DB_Search search = new DB_Search("produtos_a", Produtos.class);
+        // String result = search.searchNameDb("nome_produto", "marguerita");
 
-        System.out.println(result);
+        // System.out.println(result);
 
         // StandardServiceRegistry registry = new
         // StandardServiceRegistryBuilder().configure().build();

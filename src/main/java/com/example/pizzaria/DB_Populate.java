@@ -9,17 +9,14 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 public class DB_Populate {
 
     private String tableName;
-    private String testColumnName;
-    private Class<Produtos> entity;
 
-    public DB_Populate(String tableName, String testColumn, Class<Produtos> entity) {
+    public DB_Populate(String tableName) {
         this.tableName = tableName;
-        this.testColumnName = testColumn;
-        this.entity = entity;
     };
 
     public void populateDBMockupData() {
@@ -30,6 +27,7 @@ public class DB_Populate {
         mockupData.add(new ArrayList<>(List.of("marguerita", "Pizza Marguerita", "50")));
         mockupData.add(new ArrayList<>(List.of("frango_catupiry", "Pizza de Frango com Catupiry", "66")));
         mockupData.add(new ArrayList<>(List.of("mucarela", "Pizza de Muçarela", "50")));
+        mockupData.add(new ArrayList<>(List.of("milho_catupiry", "Pizza de Milho com Catupiry", "65")));
         mockupData.add(new ArrayList<>(List.of("brigadeiro", "Doce de Brigadeiro", "10")));
         mockupData.add(new ArrayList<>(List.of("doce_leite", "Doce de Leite", "5")));
         mockupData.add(new ArrayList<>(List.of("rapadura", "Rapadura", "15")));
@@ -47,24 +45,48 @@ public class DB_Populate {
 
         Session session = sessionFactory.openSession();
 
+        /*
+         * O session.merge() funciona para evitar entradas duplicadas, mas retorna
+         * uma exception que trava o spring boot. Uma das sugestões foi modificar a
+         * forma como spring trata a exceção especifica, que achei complicada
+         * demais para esse projeto. A segunda sugestão achei mais interessante,
+         * pois ela faz uma consulta no banco de dados e retorna um boolean se
+         * achar/ não achar a tabela com o nome especificado.
+         * 
+         * Update: Descobri que a tabela é criada em outro lugar, portanto o teste
+         * para ver se ela existe sempre retorna true. Como a tabela sempre é criada,
+         * resolvi modificar a query e checar
+         */
+
+        String checkSQLQuery = String.format(
+                "SELECT COUNT(*) FROM %s",
+                tableName);
+
+        Query<Integer> checkSQLQueryResult = session.createNativeQuery(checkSQLQuery, Integer.class);
+        Integer rowsQty = checkSQLQueryResult.getSingleResult();
+        System.out.println(rowsQty);
         // Insert mock data to db
-        for (int i = 0; i < mockupData.size(); i++) {
-            Transaction transaction = session.beginTransaction();
-            String productName;
-            String productDescription;
-            int productPrice;
+        if (rowsQty == 0) {
 
-            productName = mockupData.get(i).get(0);
-            productPrice = Integer.parseInt(mockupData.get(i).get(2));
-            productDescription = mockupData.get(i).get(1);
+            for (int i = 0; i < mockupData.size(); i++) {
+                Transaction transaction = session.beginTransaction();
+                String productName;
+                String productDescription;
+                int productPrice;
 
-            Produtos insertProdutos = new Produtos(productName, productPrice, productDescription);
-            session.merge(insertProdutos);
-            transaction.commit();
+                productName = mockupData.get(i).get(0);
+                productPrice = Integer.parseInt(mockupData.get(i).get(2));
+                productDescription = mockupData.get(i).get(1);
 
+                Produtos insertProdutos = new Produtos(productName, productPrice,
+                        productDescription);
+                session.merge(insertProdutos);
+                transaction.commit();
+
+            }
+            ;
+            session.close();
         }
-        ;
-        session.close();
 
     };
 }
