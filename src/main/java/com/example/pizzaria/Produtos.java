@@ -37,7 +37,7 @@ public class Produtos {
         this.id = id;
     }
 
-    @Column(name = "nome_produto", nullable = true)
+    @Column(name = "nome_produto", nullable = true, unique = true)
     public String getNome() {
         return nome;
     }
