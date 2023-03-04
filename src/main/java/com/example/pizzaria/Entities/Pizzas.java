@@ -1,0 +1,67 @@
+package com.example.pizzaria.Entities;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "pizzas")
+public class Pizzas {
+
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    private int pizzaId;
+
+    @Column(name = "nome")
+    private String pizzaNome;
+
+    @Column(name = "descricao")
+    private String pizzaDescricao;
+
+    @Column(name = "preco")
+    private int pizzaPreco;
+
+    @ManyToMany(mappedBy = "pedidoPizzas")
+    private List<Pedidos> pedidos = new ArrayList<>();
+
+    public Pizzas() {
+    };
+
+    public Pizzas(String pizzaNome, String pizzaDescricao, int pizzaPreco) {
+        this.pizzaNome = pizzaNome;
+        this.pizzaDescricao = pizzaDescricao;
+        this.pizzaPreco = pizzaPreco;
+    }
+
+    public void setNome(String newNome) {
+        this.pizzaNome = newNome;
+    };
+
+    public String getNome() {
+        return pizzaNome;
+    };
+
+    public void setDescricao(String newDescricao) {
+        this.pizzaDescricao = newDescricao;
+    }
+
+    public String getDescricao() {
+        return pizzaDescricao;
+    }
+
+    public void setPreco(int newPreco) {
+        this.pizzaPreco = newPreco;
+    }
+
+    public int getPreco() {
+        return pizzaPreco;
+    }
+}

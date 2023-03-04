@@ -15,6 +15,10 @@
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- <mapping resource="Produtos.hbm.xml"/>   -->
-        <mapping class="com.example.pizzaria.Produtos"/>
+        <mapping class="com.example.pizzaria.Entities.Clientes"/>
+        <mapping class="com.example.pizzaria.Entities.Pedidos"/>
+        <mapping class="com.example.pizzaria.Entities.Pizzas"/>
+        <mapping class="com.example.pizzaria.Entities.Bebidas"/>
+        <mapping class="com.example.pizzaria.Entities.Sobremesas"/>
     </session-factory>
 </hibernate-configuration>

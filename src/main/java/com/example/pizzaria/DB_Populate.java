@@ -5,88 +5,106 @@ import java.util.ArrayList;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.SessionFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+
 import org.hibernate.query.Query;
+
+import com.example.pizzaria.Entities.*;
 
 public class DB_Populate {
 
-    private String tableName;
+    private ArrayList<ArrayList<String[]>> mockupProdutos = new ArrayList<>();
+    private StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+    final SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+    private Session session = sessionFactory.openSession();
 
-    public DB_Populate(String tableName) {
-        this.tableName = tableName;
+    public DB_Populate() {
     };
+
+    public void getProdutos() {
+        System.out.println(mockupProdutos);
+        System.out.println(mockupProdutos.get(0).get(0)[1]);
+    }
 
     public void populateDBMockupData() {
         // mockup data
-        ArrayList<ArrayList<String>> mockupData = new ArrayList<>();
-        mockupData.add(new ArrayList<>(List.of("calabresa", "Pizza de Calabresa", "70")));
-        mockupData.add(new ArrayList<>(List.of("portuguesa", "Pizza Portuguesa", "65")));
-        mockupData.add(new ArrayList<>(List.of("marguerita", "Pizza Marguerita", "50")));
-        mockupData.add(new ArrayList<>(List.of("frango_catupiry", "Pizza de Frango com Catupiry", "66")));
-        mockupData.add(new ArrayList<>(List.of("mucarela", "Pizza de Muçarela", "50")));
-        mockupData.add(new ArrayList<>(List.of("milho_catupiry", "Pizza de Milho com Catupiry", "65")));
-        mockupData.add(new ArrayList<>(List.of("brigadeiro", "Doce de Brigadeiro", "10")));
-        mockupData.add(new ArrayList<>(List.of("doce_leite", "Doce de Leite", "5")));
-        mockupData.add(new ArrayList<>(List.of("rapadura", "Rapadura", "15")));
-        mockupData.add(new ArrayList<>(List.of("pacoca", "Paçoca", "5")));
-        mockupData.add(new ArrayList<>(List.of("sonho", "Sonho", "20")));
-        mockupData.add(new ArrayList<>(List.of("guarana", "Guaraná 2L", "20")));
-        mockupData.add(new ArrayList<>(List.of("coca", "Coca Cola", "20")));
-        mockupData.add(new ArrayList<>(List.of("breja", "Cevada com gás 1L", "10")));
-        mockupData.add(new ArrayList<>(List.of("agua", "Agua da bica da SABESP", "5")));
-        mockupData.add(new ArrayList<>(List.of("groselha", "Groselha (50% água, 50% açucar, 1% groselha)", "30")));
+        ArrayList<String[]> pizzasTest = new ArrayList<>();
+        pizzasTest.add(new String[] { "calabresa", "Pizza de Calabresa", "70" });
+        pizzasTest.add(new String[] { "portuguesa", "Pizza Portuguesa", "65" });
+        pizzasTest.add(new String[] { "marguerita", "Pizza Marguerita", "50" });
+        pizzasTest.add(new String[] { "frango_catupiry", "Pizza de Frango com Catupiry", "66" });
+        pizzasTest.add(new String[] { "mucarela", "Pizza de Muçarela", "50" });
+        pizzasTest.add(new String[] { "milho_catupiry", "Pizza de Milho com Catupiry", "65" });
 
-        // Setup session and transaction
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        final SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        ArrayList<String[]> bebidasTest = new ArrayList<>();
+        bebidasTest.add(new String[] { "guarana", "Guaraná 2L", "20" });
+        bebidasTest.add(new String[] { "coca", "Coca Cola", "20" });
+        bebidasTest.add(new String[] { "breja", "Cevada com gás 1L", "10" });
+        bebidasTest.add(new String[] { "agua", "Agua da bica da SABESP", "5" });
+        bebidasTest.add(new String[] { "groselha", "Groselha (50% água, 50% açucar, 1% groselha)", "30" });
 
-        Session session = sessionFactory.openSession();
+        ArrayList<String[]> sobremesasTest = new ArrayList<>();
+        sobremesasTest.add(new String[] { "sonho", "Sonho", "20" });
+        sobremesasTest.add(new String[] { "brigadeiro", "Doce de Brigadeiro", "10" });
+        sobremesasTest.add(new String[] { "doce_leite", "Doce de Leite", "5" });
+        sobremesasTest.add(new String[] { "rapadura", "Rapadura", "15" });
+        sobremesasTest.add(new String[] { "pacoca", "Paçoca", "5" });
 
-        /*
-         * O session.merge() funciona para evitar entradas duplicadas, mas retorna
-         * uma exception que trava o spring boot. Uma das sugestões foi modificar a
-         * forma como spring trata a exceção especifica, que achei complicada
-         * demais para esse projeto. A segunda sugestão achei mais interessante,
-         * pois ela faz uma consulta no banco de dados e retorna um boolean se
-         * achar/ não achar a tabela com o nome especificado.
-         * 
-         * Update: Descobri que a tabela é criada em outro lugar, portanto o teste
-         * para ver se ela existe sempre retorna true. Como a tabela sempre é criada,
-         * resolvi modificar a query e checar
-         */
+        ArrayList<ArrayList<String>> mockupSobremesas = new ArrayList<>();
+        mockupSobremesas.add(new ArrayList<>(List.of("sonho", "Sonho", "20")));
+        mockupSobremesas.add(new ArrayList<>(List.of("brigadeiro", "Doce de Brigadeiro", "10")));
+        mockupSobremesas.add(new ArrayList<>(List.of("doce_leite", "Doce de Leite", "5")));
+        mockupSobremesas.add(new ArrayList<>(List.of("rapadura", "Rapadura", "15")));
+        mockupSobremesas.add(new ArrayList<>(List.of("pacoca", "Paçoca", "5")));
 
+        mockupProdutos.add(new ArrayList<>(pizzasTest));
+        mockupProdutos.add(new ArrayList<>(bebidasTest));
+        mockupProdutos.add(new ArrayList<>(sobremesasTest));
+    };
+
+    public Boolean checkTableFill(String tableName) {
         String checkSQLQuery = String.format(
                 "SELECT COUNT(*) FROM %s",
                 tableName);
 
         Query<Integer> checkSQLQueryResult = session.createNativeQuery(checkSQLQuery, Integer.class);
         Integer rowsQty = checkSQLQueryResult.getSingleResult();
-        System.out.println(rowsQty);
-        // Insert mock data to db
-        if (rowsQty == 0) {
 
-            for (int i = 0; i < mockupData.size(); i++) {
-                Transaction transaction = session.beginTransaction();
-                String productName;
-                String productDescription;
-                int productPrice;
+        if (rowsQty > 0) {
+            return true;
+        }
+        return false;
+    };
 
-                productName = mockupData.get(i).get(0);
-                productPrice = Integer.parseInt(mockupData.get(i).get(2));
-                productDescription = mockupData.get(i).get(1);
+    public void queryInsert(ArrayList<Object> entidades, String tableName) {
+        // loop thourgh entities
+        // loop thourgh arraylist that contains values for each field
+        for (Object obj : entidades) {
+            if (obj instanceof Pizzas && checkTableFill(tableName)) {
+                // loop through mockup of pizza insertion data then
+                // another loop through all insertData
+                ArrayList<String[]> pizzasToInsert = mockupProdutos.get(0);
+                for (int i = 0; i < pizzasToInsert.size(); i++) {
+                    String nome = pizzasToInsert.get(i)[0];
+                    String descricao = pizzasToInsert.get(i)[1];
+                    int preco = Integer.parseInt(pizzasToInsert.get(i)[2]);
 
-                Produtos insertProdutos = new Produtos(productName, productPrice,
-                        productDescription);
-                session.merge(insertProdutos);
-                transaction.commit();
+                    ((Pizzas) obj).setNome(nome);
+                    ((Pizzas) obj).setDescricao(descricao);
+                    ((Pizzas) obj).setPreco(preco);
+
+                    Transaction transaction = session.beginTransaction();
+                    session.merge((Pizzas) obj);
+                    transaction.commit();
+                }
 
             }
-            ;
             session.close();
         }
-
     };
 }
