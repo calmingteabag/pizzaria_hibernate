@@ -2,6 +2,7 @@ package com.example.pizzaria;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,18 +19,16 @@ import com.example.pizzaria.Entities.*;
 
 public class DB_Populate {
 
-    private ArrayList<ArrayList<String[]>> mockupProdutos = new ArrayList<>();
+    // private ArrayList<ArrayList<String[]>> mockupProdutos = new ArrayList<>();
+
+    private HashMap<String, ArrayList<String[]>> produtos = new HashMap<>();
+
     private StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
     final SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
     private Session session = sessionFactory.openSession();
 
     public DB_Populate() {
     };
-
-    public void getProdutos() {
-        System.out.println(mockupProdutos);
-        System.out.println(mockupProdutos.get(0).get(0)[1]);
-    }
 
     public void populateDBMockupData() {
         // mockup data
@@ -55,16 +54,9 @@ public class DB_Populate {
         sobremesasTest.add(new String[] { "rapadura", "Rapadura", "15" });
         sobremesasTest.add(new String[] { "pacoca", "Paçoca", "5" });
 
-        ArrayList<ArrayList<String>> mockupSobremesas = new ArrayList<>();
-        mockupSobremesas.add(new ArrayList<>(List.of("sonho", "Sonho", "20")));
-        mockupSobremesas.add(new ArrayList<>(List.of("brigadeiro", "Doce de Brigadeiro", "10")));
-        mockupSobremesas.add(new ArrayList<>(List.of("doce_leite", "Doce de Leite", "5")));
-        mockupSobremesas.add(new ArrayList<>(List.of("rapadura", "Rapadura", "15")));
-        mockupSobremesas.add(new ArrayList<>(List.of("pacoca", "Paçoca", "5")));
-
-        mockupProdutos.add(new ArrayList<>(pizzasTest));
-        mockupProdutos.add(new ArrayList<>(bebidasTest));
-        mockupProdutos.add(new ArrayList<>(sobremesasTest));
+        produtos.put("pizzas", new ArrayList<>(pizzasTest));
+        produtos.put("bebidas", new ArrayList<>(bebidasTest));
+        produtos.put("sobremesas", new ArrayList<>(sobremesasTest));
     };
 
     public Boolean checkTableFill(String tableName) {
@@ -81,30 +73,26 @@ public class DB_Populate {
         return false;
     };
 
-    public void queryInsert(ArrayList<Object> entidades, String tableName) {
-        // loop thourgh entities
-        // loop thourgh arraylist that contains values for each field
-        for (Object obj : entidades) {
-            if (obj instanceof Pizzas && checkTableFill(tableName)) {
-                // loop through mockup of pizza insertion data then
-                // another loop through all insertData
-                ArrayList<String[]> pizzasToInsert = mockupProdutos.get(0);
-                for (int i = 0; i < pizzasToInsert.size(); i++) {
-                    String nome = pizzasToInsert.get(i)[0];
-                    String descricao = pizzasToInsert.get(i)[1];
-                    int preco = Integer.parseInt(pizzasToInsert.get(i)[2]);
+    public void queryInsert(Object entidadeHibernate, String tableName) {
 
-                    ((Pizzas) obj).setNome(nome);
-                    ((Pizzas) obj).setDescricao(descricao);
-                    ((Pizzas) obj).setPreco(preco);
+        if (checkTableFill(tableName)) {
+            ArrayList<String[]> objectsToInsert = produtos.get(tableName);
 
-                    Transaction transaction = session.beginTransaction();
-                    session.merge((Pizzas) obj);
-                    transaction.commit();
-                }
+            for (int i = 0; i < objectsToInsert.size(); i++) {
+                String nome = objectsToInsert.get(i)[0];
+                String descricao = objectsToInsert.get(i)[1];
+                int preco = Integer.parseInt(objectsToInsert.get(i)[2]);
 
+                ((Pizzas) entidadeHibernate).setNome(nome);
+                ((Pizzas) entidadeHibernate).setDescricao(descricao);
+                ((Pizzas) entidadeHibernate).setPreco(preco);
+
+                Transaction transaction = session.beginTransaction();
+                session.merge((Pizzas) entidadeHibernate);
+                transaction.commit();
             }
             session.close();
         }
+
     };
 }

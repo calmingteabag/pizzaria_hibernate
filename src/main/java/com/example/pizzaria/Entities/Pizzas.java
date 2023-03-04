@@ -23,7 +23,7 @@ public class Pizzas {
     @Column(name = "nome")
     private String pizzaNome;
 
-    @Column(name = "descricao")
+    @Column(name = "descricao", unique = true)
     private String pizzaDescricao;
 
     @Column(name = "preco")

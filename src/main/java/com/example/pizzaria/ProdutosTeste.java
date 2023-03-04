@@ -10,17 +10,17 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "produtos")
-public class Produtos {
+public class ProdutosTeste {
 
     private int id;
     private String nome;
     private int preco;
     private String descricao;
 
-    public Produtos() {
+    public ProdutosTeste() {
     };
 
-    public Produtos(String nome, int preco, String descricao) {
+    public ProdutosTeste(String nome, int preco, String descricao) {
         this.nome = nome;
         this.preco = preco;
         this.descricao = descricao;

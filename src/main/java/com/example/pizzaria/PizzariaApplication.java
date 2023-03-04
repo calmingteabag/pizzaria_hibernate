@@ -54,14 +54,14 @@ public class PizzariaApplication {
 	// coisa
 	public String postBody(HttpServletRequest request, Model model) {
 
-		ArrayList<Object> entidades = new ArrayList<Object>();
-		entidades.add(new Pizzas());
-		entidades.add(new Bebidas());
-		entidades.add(new Sobremesas());
+		Pizzas pizza = new Pizzas();
+		Bebidas bebida = new Bebidas();
+		Sobremesas sobremesa = new Sobremesas();
 
 		DB_Populate insertDados = new DB_Populate();
 		insertDados.populateDBMockupData(); // creates a mockup array to be inserted
-		insertDados.queryInsert(entidades, "pizzas");
+		insertDados.queryInsert(pizza, "pizzas");
+
 		return "blank";
 	}
 }
