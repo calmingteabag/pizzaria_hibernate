@@ -1,6 +1,7 @@
 package com.example.pizzaria.Entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Bebidas implements ProdutosInterface {
     @Column(name = "preco")
     private int bebidaPreco;
 
-    @ManyToMany(mappedBy = "pedidoBebidas")
+    @ManyToMany(mappedBy = "pedidoBebidas", fetch = FetchType.EAGER)
     private List<Pedidos> pedidos = new ArrayList<>();
 
     public Bebidas() {
