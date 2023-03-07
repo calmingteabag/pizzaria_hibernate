@@ -22,7 +22,7 @@ public class Clientes {
     @GenericGenerator(name = "increment", strategy = "increment")
     private int clienteId;
 
-    @OneToMany(mappedBy = "clientes", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedidos> clientePedidos = new ArrayList<>();
 
     @Column(name = "clienteNome", unique = true)
