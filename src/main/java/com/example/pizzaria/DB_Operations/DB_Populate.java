@@ -1,3 +1,8 @@
+
+/*
+ * Preenche o DB (Cliente, Pizzas, Bebidas, Sobremesas) com valores de teste.
+*/
+
 package com.example.pizzaria.DB_Operations;
 
 import com.example.pizzaria.Entities.*;
@@ -14,9 +19,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.query.Query;
 
 public class DB_Populate {
-    /*
-     * Populates Database with mockup Data
-     */
 
     private HashMap<String, ArrayList<String[]>> produtos = new HashMap<>();
 
