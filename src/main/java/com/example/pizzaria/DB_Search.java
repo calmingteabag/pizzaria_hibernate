@@ -1,5 +1,6 @@
 package com.example.pizzaria;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -10,47 +11,46 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.SessionFactory;
 
 public class DB_Search {
-    /*
-     * Essa classe e o metodo searchNameDb faz um query do tipo
-     * SELECT * FROM tabela WHERE coluna = valor
-     * 
-     */
 
-    protected static String tableName;
-    protected static Class<Produtos> entity;
+    public String tableName;
+    public Class<?> entity;
 
-    public DB_Search(String tablename, Class<Produtos> entity) {
-        DB_Search.tableName = tablename;
-        // DB_Search.columnName = columnname;
-        DB_Search.entity = entity;
+    public DB_Search(String tablename, Class<?> entity) {
+        this.tableName = tablename;
+        this.entity = entity;
     };
 
     public int searchPriceDb(String column_name, String search_param) {
-        String searchParam = search_param;
-        String columnName = column_name;
+
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         final SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
-        String searchQuery = String.format("SELECT * FROM %s WHERE %s = %s", DB_Search.tableName,
-                columnName,
-                "'" + searchParam + "'");
+        String searchQuery = String.format("SELECT * FROM %s WHERE %s = %s", this.tableName,
+                column_name,
+                "'" + search_param + "'");
 
-        SelectionQuery<Produtos> dbQuery = session.createNativeQuery(
+        SelectionQuery<?> dbQuery = session.createNativeQuery(
                 searchQuery,
-                DB_Search.entity);
+                entity);
 
-        List<Produtos> dbSearchResultList = dbQuery.getResultList();
+        List<?> dbSearchResultList = dbQuery.getResultList();
 
         if (dbSearchResultList.isEmpty()) {
             return 0;
+
         } else {
-            int dbSearchResult = dbSearchResultList.get(0).getPreco();
-            session.close();
+            Object dbObject = dbSearchResultList.get(0);
 
-            return dbSearchResult;
+            try {
+                Method methodGetter = entity.getMethod("getPreco");
+                int preco = (int) methodGetter.invoke(dbObject);
+                return preco;
+
+            } catch (Exception error) {
+                error.printStackTrace();
+                return 0;
+            }
         }
-
     }
-
 }

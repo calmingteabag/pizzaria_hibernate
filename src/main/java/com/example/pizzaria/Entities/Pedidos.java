@@ -11,9 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -38,11 +36,11 @@ public class Pedidos {
 
     @ManyToMany
     @JoinTable(name = "pedido_bebida", joinColumns = @JoinColumn(name = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "bebidaId"))
-    private ArrayList<Bebidas> pedidoBebidas = new ArrayList<>();
+    private List<Bebidas> pedidoBebidas = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "pedido_sobremesa", joinColumns = @JoinColumn(name = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "sobremesaId"))
-    private ArrayList<Sobremesas> pedidoSobremesas = new ArrayList<>();
+    private List<Sobremesas> pedidoSobremesas = new ArrayList<>();
 
     public Pedidos() {
     };

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pizzas")
-public class Pizzas {
+public class Pizzas implements ProdutosInterface {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -41,24 +41,24 @@ public class Pizzas {
         this.pizzaPreco = pizzaPreco;
     }
 
-    public void setNome(String newNome) {
-        this.pizzaNome = newNome;
+    public void setNome(String novoNome) {
+        this.pizzaNome = novoNome;
     };
 
     public String getNome() {
         return pizzaNome;
     };
 
-    public void setDescricao(String newDescricao) {
-        this.pizzaDescricao = newDescricao;
+    public void setDescricao(String novaDescricao) {
+        this.pizzaDescricao = novaDescricao;
     }
 
     public String getDescricao() {
         return pizzaDescricao;
     }
 
-    public void setPreco(int newPreco) {
-        this.pizzaPreco = newPreco;
+    public void setPreco(int novoPreco) {
+        this.pizzaPreco = novoPreco;
     }
 
     public int getPreco() {

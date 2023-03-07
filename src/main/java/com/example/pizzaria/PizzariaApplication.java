@@ -1,7 +1,6 @@
 package com.example.pizzaria;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import com.example.pizzaria.Entities.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -11,17 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.SessionFactory;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import com.example.pizzaria.Entities.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 @SpringBootApplication
 // @RestController
@@ -54,13 +42,20 @@ public class PizzariaApplication {
 	// coisa
 	public String postBody(HttpServletRequest request, Model model) {
 
+		// mockup data
 		Pizzas pizza = new Pizzas();
 		Bebidas bebida = new Bebidas();
 		Sobremesas sobremesa = new Sobremesas();
 
 		DB_Populate insertDados = new DB_Populate();
 		insertDados.populateDBMockupData(); // creates a mockup array to be inserted
-		insertDados.queryInsert(pizza, "pizzas");
+		insertDados.productsInsert(pizza, "pizzas");
+		insertDados.productsInsert(bebida, "bebidas");
+		insertDados.productsInsert(sobremesa, "sobremesas");
+		insertDados.clientInsert("clientes");
+
+		DB_Search search = new DB_Search("bebidas", Bebidas.class);
+		search.searchPriceDb("nome", "breja");
 
 		return "blank";
 	}

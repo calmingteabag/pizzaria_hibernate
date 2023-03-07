@@ -10,7 +10,7 @@ public class PedidosCalculate extends DB_Search {
 
     private int totalPrecoPedido;
 
-    public PedidosCalculate(String tablename, String column_name, Class<Produtos> entity,
+    public PedidosCalculate(String tablename, String column_name, Class<ProdutosTeste> entity,
             HashMap<String, ArrayList<ArrayList<String>>> hashmap) {
         super(tablename, entity);
         this.pedidos = hashmap;
@@ -29,16 +29,19 @@ public class PedidosCalculate extends DB_Search {
         for (int i = 0; i < pedidoTipoEspecifico.size(); i++) {
 
             ArrayList<String> currentPedido = pedidoTipoEspecifico.get(i);
-            String nomePrincipalPedido = currentPedido.get(0); // nome do pedido principal
+            String nomePrincipalPedido = currentPedido.get(0); // nome do pedido
+            // principal
             String nomeSecundarioPedido = currentPedido.get(1); // no caso de pizzas
             String quantidadePedido = currentPedido.get(2);
 
             if (hashKey == "pizzas" && nomeSecundarioPedido != "none") {
 
                 int firstFlavorPrice = super.searchPriceDb(columnName, nomePrincipalPedido);
-                int secondFlavorPrice = super.searchPriceDb(columnName, nomeSecundarioPedido);
+                int secondFlavorPrice = super.searchPriceDb(columnName,
+                        nomeSecundarioPedido);
 
                 if (firstFlavorPrice > secondFlavorPrice) {
+
                     totalPrecoPedidoEspecifico = firstFlavorPrice * Integer.parseInt(quantidadePedido);
                     currentPedido.add(Integer.toString(totalPrecoPedidoEspecifico));
                     System.out.println(String.format("Your %s costs %d. O valor é o da pizza mais cara, %s ",
@@ -55,7 +58,8 @@ public class PedidosCalculate extends DB_Search {
                 int precoProdutoAtual = super.searchPriceDb(columnName, nomePrincipalPedido);
                 totalPrecoPedidoEspecifico = precoProdutoAtual * Integer.parseInt(quantidadePedido);
                 currentPedido.add(Integer.toString(totalPrecoPedidoEspecifico));
-                System.out.println(String.format("Your %s costs %d ", nomePrincipalPedido, precoProdutoAtual));
+                System.out.println(String.format("Your %s costs %d ", nomePrincipalPedido,
+                        precoProdutoAtual));
             }
         }
         return totalPrecoPedidoEspecifico;
@@ -78,7 +82,8 @@ public class PedidosCalculate extends DB_Search {
         // ArrayList<?>(List.of(Integer.toString(totalPedidoPizzas))));
         // a ideia é put no hashmap os preços totais por tipo de pedido
 
-        totalPrecoPedido = totalPedidoPizzas + totalPedidoBebidas + totalPedidoSobremesas;
+        totalPrecoPedido = totalPedidoPizzas + totalPedidoBebidas +
+                totalPedidoSobremesas;
 
         return totalPrecoPedido;
     }

@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,11 +22,11 @@ public class Clientes {
     @GenericGenerator(name = "increment", strategy = "increment")
     private int clienteId;
 
+    @OneToMany(mappedBy = "clientes", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedidos> clientePedidos = new ArrayList<>();
+
     @Column(name = "clienteNome", unique = true)
     private String clienteNome;
-
-    @OneToMany(mappedBy = "clientes", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<Pedidos> clientePedidos = new ArrayList<>();
 
     public Clientes() {
     };
@@ -46,7 +47,7 @@ public class Clientes {
         this.clienteNome = novo_nome;
     }
 
-    public ArrayList<Pedidos> getClientePedidos() {
+    public List<Pedidos> getClientePedidos() {
         return clientePedidos;
     }
 

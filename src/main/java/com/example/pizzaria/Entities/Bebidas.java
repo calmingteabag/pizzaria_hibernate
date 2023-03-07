@@ -9,10 +9,11 @@ import jakarta.persistence.ManyToMany;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "bebidas")
-public class Bebidas {
+public class Bebidas implements ProdutosInterface {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -26,11 +27,41 @@ public class Bebidas {
     private String bebidaDescricao;
 
     @Column(name = "preco")
-    private int pizzaPreço;
+    private int bebidaPreco;
 
     @ManyToMany(mappedBy = "pedidoBebidas")
-    private ArrayList<Pedidos> pedidos = new ArrayList<>();
+    private List<Pedidos> pedidos = new ArrayList<>();
 
     public Bebidas() {
     };
+
+    public Bebidas(String bebidasNome, String bebidasDescricao, int bebidasPreco) {
+        this.bebidaNome = bebidasNome;
+        this.bebidaDescricao = bebidasDescricao;
+        this.bebidaPreco = bebidasPreco;
+    }
+
+    public void setNome(String novoNome) {
+        this.bebidaNome = novoNome;
+    };
+
+    public String getNome() {
+        return bebidaNome;
+    };
+
+    public void setDescricao(String novaDescricao) {
+        this.bebidaDescricao = novaDescricao;
+    }
+
+    public String getDescricao() {
+        return bebidaDescricao;
+    }
+
+    public void setPreco(int novoPreco) {
+        this.bebidaPreco = novoPreco;
+    }
+
+    public int getPreco() {
+        return bebidaPreco;
+    }
 }

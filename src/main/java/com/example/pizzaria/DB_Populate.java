@@ -1,21 +1,17 @@
 package com.example.pizzaria;
 
-import java.util.List;
+import com.example.pizzaria.Entities.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.SessionFactory;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
-
 import org.hibernate.query.Query;
-
-import com.example.pizzaria.Entities.*;
 
 public class DB_Populate {
 
@@ -59,7 +55,7 @@ public class DB_Populate {
         produtos.put("sobremesas", new ArrayList<>(sobremesasTest));
     };
 
-    public Boolean checkTableFill(String tableName) {
+    public Boolean isTableFilled(String tableName) {
         String checkSQLQuery = String.format(
                 "SELECT COUNT(*) FROM %s",
                 tableName);
@@ -73,9 +69,9 @@ public class DB_Populate {
         return false;
     };
 
-    public void queryInsert(Object entidadeHibernate, String tableName) {
+    public void productsInsert(ProdutosInterface entidadeHibernate, String tableName) {
 
-        if (checkTableFill(tableName)) {
+        if (!isTableFilled(tableName)) {
             ArrayList<String[]> objectsToInsert = produtos.get(tableName);
 
             for (int i = 0; i < objectsToInsert.size(); i++) {
@@ -83,16 +79,26 @@ public class DB_Populate {
                 String descricao = objectsToInsert.get(i)[1];
                 int preco = Integer.parseInt(objectsToInsert.get(i)[2]);
 
-                ((Pizzas) entidadeHibernate).setNome(nome);
-                ((Pizzas) entidadeHibernate).setDescricao(descricao);
-                ((Pizzas) entidadeHibernate).setPreco(preco);
+                entidadeHibernate.setNome(nome);
+                entidadeHibernate.setDescricao(descricao);
+                entidadeHibernate.setPreco(preco);
 
                 Transaction transaction = session.beginTransaction();
-                session.merge((Pizzas) entidadeHibernate);
+                session.merge(entidadeHibernate);
                 transaction.commit();
             }
-            session.close();
-        }
 
+        }
     };
+
+    public void clientInsert(String tableName) {
+        if (!isTableFilled(tableName)) {
+
+            Clientes cliente = new Clientes("rei_gado");
+            Transaction transaction = session.beginTransaction();
+            session.merge(cliente);
+            transaction.commit();
+
+        }
+    }
 }
