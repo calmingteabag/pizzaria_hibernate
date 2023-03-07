@@ -28,7 +28,7 @@ public class Pedidos {
     private int pedidoTotal;
 
     @ManyToOne
-    private Clientes clientes;
+    private Clientes cliente;
 
     @ManyToMany
     @JoinTable(name = "pedido_pizza", joinColumns = @JoinColumn(name = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "pizzaId"))
@@ -44,5 +44,68 @@ public class Pedidos {
 
     public Pedidos() {
     };
+
+    public Pedidos(int pedidoTotal, Clientes newCliente, List<Pizzas> pizzas, List<Bebidas> bebidas,
+            List<Sobremesas> sobremesas) {
+        this.pedidoTotal = pedidoTotal;
+        this.cliente = newCliente;
+        this.pedidoPizzas = pizzas;
+        this.pedidoBebidas = bebidas;
+        this.pedidoSobremesas = sobremesas;
+    }
+
+    public List<Pizzas> getPizzas() {
+        return pedidoPizzas;
+    };
+
+    public List<Bebidas> getBebidas() {
+        return pedidoBebidas;
+    };
+
+    public List<Sobremesas> getSobremesas() {
+        return pedidoSobremesas;
+    };
+
+    public int getPizzaTotals() {
+        int totals = 0;
+        if (pedidoPizzas.isEmpty()) {
+            return 0;
+        } else {
+            for (int i = 0; i < pedidoPizzas.size(); i++) {
+                Pizzas currentPizza = this.getPizzas().get(i);
+                int currPrice = currentPizza.getPreco();
+                totals += currPrice;
+            }
+            return totals;
+        }
+    }
+
+    public int getBebidaTotals() {
+        int totals = 0;
+        if (pedidoBebidas.isEmpty()) {
+            return 0;
+        } else {
+            for (int i = 0; i < pedidoBebidas.size(); i++) {
+                Bebidas currentBebida = this.getBebidas().get(i);
+                int currPrice = currentBebida.getPreco();
+                totals += currPrice;
+            }
+            return totals;
+        }
+    }
+
+    public int getSobremesaTotals() {
+        int totals = 0;
+        if (pedidoSobremesas.isEmpty()) {
+            return 0;
+        } else {
+            for (int i = 0; i < pedidoSobremesas.size(); i++) {
+                Sobremesas currentSobremesa = this.getSobremesas().get(i);
+                int currPrice = currentSobremesa.getPreco();
+                totals += currPrice;
+            }
+            return totals;
+        }
+    }
 
 }
