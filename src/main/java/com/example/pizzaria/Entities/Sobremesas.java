@@ -1,15 +1,15 @@
 package com.example.pizzaria.Entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,8 +30,8 @@ public class Sobremesas implements ProdutosInterface {
     @Column(name = "preco")
     private int sobremesaPreco;
 
-    @ManyToMany(mappedBy = "pedidoSobremesas", fetch = FetchType.EAGER)
-    private List<Pedidos> pedidos = new ArrayList<>();
+    @OneToMany(mappedBy = "sobremesa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidosSobremesas> pedidoSobremesa;
 
     public Sobremesas() {
     };
@@ -66,4 +66,11 @@ public class Sobremesas implements ProdutosInterface {
         return sobremesaPreco;
     }
 
+    public List<PedidosSobremesas> getPedidosSobremesas() {
+        return pedidoSobremesa;
+    };
+
+    public void setPedidosSobremesas(List<PedidosSobremesas> newPedidosSobremesas) {
+        this.pedidoSobremesa = newPedidosSobremesas;
+    }
 }

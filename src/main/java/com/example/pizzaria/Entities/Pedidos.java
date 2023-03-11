@@ -1,16 +1,13 @@
 package com.example.pizzaria.Entities;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
-
-import java.util.ArrayList;
+import jakarta.persistence.OneToMany;
 import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -24,88 +21,111 @@ public class Pedidos {
     @GenericGenerator(name = "increment", strategy = "increment")
     private int pedidoId;
 
-    @Column(name = "total_pedido")
-    private int pedidoTotal;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Clientes cliente;
 
-    @ManyToMany
-    @JoinTable(name = "pedido_pizza", joinColumns = @JoinColumn(name = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "pizzaId"))
-    private List<Pizzas> pedidoPizzas = new ArrayList<>();
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidosPizzas> pedidoPizzas;
 
-    @ManyToMany
-    @JoinTable(name = "pedido_bebida", joinColumns = @JoinColumn(name = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "bebidaId"))
-    private List<Bebidas> pedidoBebidas = new ArrayList<>();
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidosBebidas> pedidoBebidas;
 
-    @ManyToMany
-    @JoinTable(name = "pedido_sobremesa", joinColumns = @JoinColumn(name = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "sobremesaId"))
-    private List<Sobremesas> pedidoSobremesas = new ArrayList<>();
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidosSobremesas> pedidoSobremesas;
 
     public Pedidos() {
     };
 
-    public Pedidos(int pedidoTotal, Clientes newCliente, List<Pizzas> pizzas, List<Bebidas> bebidas,
-            List<Sobremesas> sobremesas) {
-        this.pedidoTotal = pedidoTotal;
+    public Pedidos(Clientes newCliente, List<PedidosPizzas> pizzas, List<PedidosBebidas> bebidas,
+            List<PedidosSobremesas> sobremesas) {
         this.cliente = newCliente;
         this.pedidoPizzas = pizzas;
         this.pedidoBebidas = bebidas;
         this.pedidoSobremesas = sobremesas;
     }
 
-    public List<Pizzas> getPizzas() {
+    public Pedidos(Clientes newCliente) {
+        this.cliente = newCliente;
+    }
+
+    public Clientes getClientes() {
+        return cliente;
+    }
+
+    public void setClientes(Clientes newCliente) {
+        this.cliente = newCliente;
+    }
+
+    public List<PedidosPizzas> getPedidosPizzas() {
         return pedidoPizzas;
     };
 
-    public List<Bebidas> getBebidas() {
+    public void setPedidosPizzas(List<PedidosPizzas> newPedidosPizzas) {
+        this.pedidoPizzas = newPedidosPizzas;
+    }
+
+    public List<PedidosBebidas> getPedidosBebidas() {
         return pedidoBebidas;
     };
 
-    public List<Sobremesas> getSobremesas() {
+    public void setPedidosBebidas(List<PedidosBebidas> newPedidosBebidas) {
+        this.pedidoBebidas = newPedidosBebidas;
+    }
+
+    public List<PedidosSobremesas> getPedidosSobremesas() {
         return pedidoSobremesas;
     };
 
-    public int getPizzaTotals() {
-        int totals = 0;
-        if (pedidoPizzas.isEmpty()) {
-            return 0;
-        } else {
-            for (int i = 0; i < pedidoPizzas.size(); i++) {
-                Pizzas currentPizza = this.getPizzas().get(i);
-                int currPrice = currentPizza.getPreco();
-                totals += currPrice;
-            }
-            return totals;
-        }
+    public void setPedidosSobremesas(List<PedidosSobremesas> newPedidosSobremesas) {
+        this.pedidoSobremesas = newPedidosSobremesas;
     }
 
-    public int getBebidaTotals() {
-        int totals = 0;
-        if (pedidoBebidas.isEmpty()) {
-            return 0;
-        } else {
-            for (int i = 0; i < pedidoBebidas.size(); i++) {
-                Bebidas currentBebida = this.getBebidas().get(i);
-                int currPrice = currentBebida.getPreco();
-                totals += currPrice;
-            }
-            return totals;
-        }
-    }
+    // public int getPizzaTotals() {
+    // int totals = 0;
+    // if (pedidoPizzas.isEmpty()) {
+    // return 0;
+    // } else {
 
-    public int getSobremesaTotals() {
-        int totals = 0;
-        if (pedidoSobremesas.isEmpty()) {
-            return 0;
-        } else {
-            for (int i = 0; i < pedidoSobremesas.size(); i++) {
-                Sobremesas currentSobremesa = this.getSobremesas().get(i);
-                int currPrice = currentSobremesa.getPreco();
-                totals += currPrice;
-            }
-            return totals;
-        }
-    }
+    // for (int i = 0; i < pedidoPizzas.size(); i++) {
 
+    // Pizzas currentPizza = (Pizzas) this.pedidoPizzas.keySet().toArray()[i];
+    // PedidosDetalhes currentDetalhes = this.pedidoPizzas.get(currentPizza);
+
+    // int singlePrice = currentPizza.getPreco();
+    // int orderQty = currentDetalhes.getQty();
+
+    // totals += singlePrice * orderQty;
+    // }
+
+    // return totals;
+    // }
+    // }
+
+    // public int getBebidaTotals() {
+    // int totals = 0;
+    // if (pedidoBebidas.isEmpty()) {
+    // return 0;
+    // } else {
+    // for (int i = 0; i < pedidoBebidas.size(); i++) {
+    // Bebidas currentBebida = this.getBebidas().get(i);
+    // int currPrice = currentBebida.getPreco();
+    // totals += currPrice;
+    // }
+    // return totals;
+    // }
+    // }
+
+    // public int getSobremesaTotals() {
+    // int totals = 0;
+    // if (pedidoSobremesas.isEmpty()) {
+    // return 0;
+    // } else {
+    // for (int i = 0; i < pedidoSobremesas.size(); i++) {
+    // Sobremesas currentSobremesa = this.getSobremesas().get(i);
+    // int currPrice = currentSobremesa.getPreco();
+    // totals += currPrice;
+    // }
+    // return totals;
+    // }
+    // }
 }

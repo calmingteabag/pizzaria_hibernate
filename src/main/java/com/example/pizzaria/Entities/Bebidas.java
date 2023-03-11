@@ -1,15 +1,16 @@
 package com.example.pizzaria.Entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class Bebidas implements ProdutosInterface {
     @GenericGenerator(name = "increment", strategy = "increment")
     private int bebidaId;
 
-    @Column(name = "nome")
+    @Column(name = "nome", unique = true)
     private String bebidaNome;
 
     @Column(name = "descricao")
@@ -30,8 +31,8 @@ public class Bebidas implements ProdutosInterface {
     @Column(name = "preco")
     private int bebidaPreco;
 
-    @ManyToMany(mappedBy = "pedidoBebidas", fetch = FetchType.EAGER)
-    private List<Pedidos> pedidos = new ArrayList<>();
+    @OneToMany(mappedBy = "bebida", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidosBebidas> pedidoBebida;
 
     public Bebidas() {
     };
@@ -64,5 +65,13 @@ public class Bebidas implements ProdutosInterface {
 
     public int getPreco() {
         return bebidaPreco;
+    }
+
+    public List<PedidosBebidas> getPedidosPizzas() {
+        return pedidoBebida;
+    };
+
+    public void setPedidosBebidas(List<PedidosBebidas> newPedidosBebidas) {
+        this.pedidoBebida = newPedidosBebidas;
     }
 }
