@@ -21,15 +21,15 @@
 package com.example.pizzaria.Entities;
 
 public interface ProdutosInterface {
-    public void setNome(String novoNome);
-
     public String getNome();
 
-    public void setDescricao(String novaDescricao);
+    public void setNome(String novoNome);
 
     public String getDescricao();
 
-    public void setPreco(int novoPreco);
+    public void setDescricao(String novaDescricao);
 
     public int getPreco();
+
+    public void setPreco(int novoPreco);
 }
