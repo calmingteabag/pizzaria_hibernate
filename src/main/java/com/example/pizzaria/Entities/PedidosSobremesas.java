@@ -18,14 +18,15 @@ public class PedidosSobremesas {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "pedido_sobremesa_id")
     private int pedidoSobremesaId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pedidoId")
+    @JoinColumn(name = "pedido_id")
     private Pedidos pedido;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sobremesaId")
+    @JoinColumn(name = "sobremesa_id")
     private Sobremesas sobremesa;
 
     @Column(name = "quantidade")

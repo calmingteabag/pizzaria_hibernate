@@ -19,6 +19,7 @@ public class Pizzas implements ProdutosInterface {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "pizza_id")
     private int pizzaId;
 
     @Column(name = "nome")

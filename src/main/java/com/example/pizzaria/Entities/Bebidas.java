@@ -2,7 +2,6 @@ package com.example.pizzaria.Entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +19,7 @@ public class Bebidas implements ProdutosInterface {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "bebida_id")
     private int bebidaId;
 
     @Column(name = "nome", unique = true)

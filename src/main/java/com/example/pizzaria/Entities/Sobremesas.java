@@ -19,6 +19,7 @@ public class Sobremesas implements ProdutosInterface {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "sobremesa_id")
     private int sobremesaId;
 
     @Column(name = "nome")

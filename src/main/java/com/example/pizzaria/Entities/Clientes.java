@@ -21,12 +21,13 @@ public class Clientes {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "cliente_id")
     private int clienteId;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Pedidos> clientePedidos = new ArrayList<>();
 
-    @Column(name = "clienteNome", unique = true)
+    @Column(name = "cliente_nome", unique = true, nullable = false)
     private String clienteNome;
 
     public Clientes() {
