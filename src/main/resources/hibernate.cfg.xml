@@ -20,5 +20,9 @@
         <mapping class="com.example.pizzaria.Entities.Pizzas"/>
         <mapping class="com.example.pizzaria.Entities.Bebidas"/>
         <mapping class="com.example.pizzaria.Entities.Sobremesas"/>
+        <mapping class="com.example.pizzaria.Entities.PedidosPizzas"/>
+        <mapping class="com.example.pizzaria.Entities.PedidosBebidas"/>
+        <mapping class="com.example.pizzaria.Entities.PedidosSobremesas"/>
+  
     </session-factory>
 </hibernate-configuration>
