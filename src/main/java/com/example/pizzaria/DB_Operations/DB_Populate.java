@@ -72,15 +72,32 @@ public class DB_Populate {
         return false;
     };
 
-    public void productsInsert(ProdutosInterface entidadeHibernate, String tableName) {
+    public Boolean isDuplicate(String tableName, String columnName, String insertValue) {
+        String checkSQLQuery = String.format("SELECT COUNT(*) FROM %s WHERE %s = %s", tableName,
+                columnName,
+                "'" + insertValue + "'");
 
-        if (!isTableFilled(tableName)) {
-            ArrayList<String[]> objectsToInsert = produtos.get(tableName);
+        Query<Integer> checkSQLQueryResult = session.createNativeQuery(checkSQLQuery, Integer.class);
+        Integer entriesQty = checkSQLQueryResult.getSingleResult();
 
-            for (int i = 0; i < objectsToInsert.size(); i++) {
-                String nome = objectsToInsert.get(i)[0];
-                String descricao = objectsToInsert.get(i)[1];
-                int preco = Integer.parseInt(objectsToInsert.get(i)[2]);
+        if (entriesQty > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public void productsInsert(ProdutosInterface entidadeHibernate, String tableName, String checkDuplicateColumn) {
+
+        ArrayList<String[]> productList = produtos.get(tableName);
+
+        for (int i = 0; i < productList.size(); i++) {
+            String nome = productList.get(i)[0];
+
+            if (!isDuplicate(tableName, checkDuplicateColumn, nome)) {
+
+                System.out.println(isDuplicate(tableName, "nome", nome));
+                String descricao = productList.get(i)[1];
+                int preco = Integer.parseInt(productList.get(i)[2]);
 
                 entidadeHibernate.setNome(nome);
                 entidadeHibernate.setDescricao(descricao);
@@ -89,19 +106,8 @@ public class DB_Populate {
                 Transaction transaction = session.beginTransaction();
                 session.merge(entidadeHibernate);
                 transaction.commit();
-            }
 
+            }
         }
     };
-
-    public void clientInsert(String tableName) {
-        if (!isTableFilled(tableName)) {
-
-            Clientes cliente = new Clientes("rei_gado");
-            Transaction transaction = session.beginTransaction();
-            session.merge(cliente);
-            transaction.commit();
-
-        }
-    }
 }
