@@ -11,9 +11,11 @@ import jakarta.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.example.pizzaria.Interfaces.PedidosProdutosInterface;
+
 @Entity
 @Table(name = "pedido_sobremesa")
-public class PedidosSobremesas {
+public class PedidosSobremesas implements PedidosProdutosInterface {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -41,15 +43,31 @@ public class PedidosSobremesas {
         this.quantidade = qty;
     };
 
+    public Pedidos getPedido() {
+        return pedido;
+    }
+
     public void setPedido(Pedidos newPedido) {
         this.pedido = newPedido;
+    }
+
+    public Sobremesas getSobremesa() {
+        return sobremesa;
     }
 
     public void setSobremesa(Sobremesas newSobremesa) {
         this.sobremesa = newSobremesa;
     }
 
+    public int getQty() {
+        return quantidade;
+    }
+
     public void setQty(int newQty) {
         this.quantidade = newQty;
+    }
+
+    public Object getProduto() {
+        return sobremesa;
     }
 }

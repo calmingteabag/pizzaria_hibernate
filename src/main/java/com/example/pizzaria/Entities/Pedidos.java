@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -26,13 +28,16 @@ public class Pedidos {
     @ManyToOne(fetch = FetchType.EAGER)
     private Clientes cliente;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
+    @Column(name = "pedido_Pizzas")
     private List<PedidosPizzas> pedidoPizzas;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
+    @Column(name = "pedido_Bebidas")
     private List<PedidosBebidas> pedidoBebidas;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
+    @Column(name = "pedido_Sobremesas")
     private List<PedidosSobremesas> pedidoSobremesas;
 
     public Pedidos() {
@@ -50,7 +55,11 @@ public class Pedidos {
         this.cliente = newCliente;
     }
 
-    public Clientes getClientes() {
+    public int getPedidoId() {
+        return pedidoId;
+    }
+
+    public Clientes getCliente() {
         return cliente;
     }
 
@@ -82,52 +91,110 @@ public class Pedidos {
         this.pedidoSobremesas = newPedidosSobremesas;
     }
 
-    // public int getPizzaTotals() {
-    // int totals = 0;
-    // if (pedidoPizzas.isEmpty()) {
-    // return 0;
-    // } else {
+    public ArrayList<?> getProductNamesList(String productType) {
+        ArrayList<String> nameList = new ArrayList<>();
 
-    // for (int i = 0; i < pedidoPizzas.size(); i++) {
+        if (productType == "pizzas") {
+            for (int i = 0; i < pedidoPizzas.size(); i++) {
+                Pizzas pizza = pedidoPizzas.get(i).getPizza();
+                String nome = pizza.getNome();
+                nameList.add(nome);
+            }
+        } else if (productType == "bebidas") {
+            for (int i = 0; i < pedidoBebidas.size(); i++) {
+                Bebidas bebida = pedidoBebidas.get(i).getBebida();
+                String nome = bebida.getNome();
+                nameList.add(nome);
+            }
 
-    // Pizzas currentPizza = (Pizzas) this.pedidoPizzas.keySet().toArray()[i];
-    // PedidosDetalhes currentDetalhes = this.pedidoPizzas.get(currentPizza);
+        } else if (productType == "sobremesas") {
+            for (int i = 0; i < pedidoSobremesas.size(); i++) {
+                Sobremesas sobremesa = pedidoSobremesas.get(i).getSobremesa();
+                String nome = sobremesa.getNome();
+                nameList.add(nome);
+            }
+        }
+        return nameList;
+    }
 
-    // int singlePrice = currentPizza.getPreco();
-    // int orderQty = currentDetalhes.getQty();
+    public ArrayList<?> getProductPriceList(String productType) {
+        ArrayList<Integer> priceList = new ArrayList<>();
 
-    // totals += singlePrice * orderQty;
-    // }
+        if (productType == "pizzas") {
+            for (int i = 0; i < pedidoPizzas.size(); i++) {
+                Pizzas pizza = pedidoPizzas.get(i).getPizza();
+                Integer price = pizza.getPreco();
+                priceList.add(price);
+            }
+        } else if (productType == "bebidas") {
+            for (int i = 0; i < pedidoBebidas.size(); i++) {
+                Bebidas bebida = pedidoBebidas.get(i).getBebida();
+                Integer price = bebida.getPreco();
+                priceList.add(price);
+            }
 
-    // return totals;
-    // }
-    // }
+        } else if (productType == "sobremesas") {
+            for (int i = 0; i < pedidoSobremesas.size(); i++) {
+                Sobremesas sobremesa = pedidoSobremesas.get(i).getSobremesa();
+                Integer price = sobremesa.getPreco();
+                priceList.add(price);
+            }
+        }
+        return priceList;
+    }
 
-    // public int getBebidaTotals() {
-    // int totals = 0;
-    // if (pedidoBebidas.isEmpty()) {
-    // return 0;
-    // } else {
-    // for (int i = 0; i < pedidoBebidas.size(); i++) {
-    // Bebidas currentBebida = this.getBebidas().get(i);
-    // int currPrice = currentBebida.getPreco();
-    // totals += currPrice;
-    // }
-    // return totals;
-    // }
-    // }
+    public ArrayList<?> getProductQtyList(String productType) {
+        ArrayList<Integer> qtyList = new ArrayList<>();
 
-    // public int getSobremesaTotals() {
-    // int totals = 0;
-    // if (pedidoSobremesas.isEmpty()) {
-    // return 0;
-    // } else {
-    // for (int i = 0; i < pedidoSobremesas.size(); i++) {
-    // Sobremesas currentSobremesa = this.getSobremesas().get(i);
-    // int currPrice = currentSobremesa.getPreco();
-    // totals += currPrice;
-    // }
-    // return totals;
-    // }
-    // }
+        if (productType == "pizzas") {
+            for (int i = 0; i < pedidoPizzas.size(); i++) {
+                Integer qty = pedidoPizzas.get(i).getQty();
+                qtyList.add(qty);
+            }
+        } else if (productType == "bebidas") {
+            for (int i = 0; i < pedidoBebidas.size(); i++) {
+                Integer qty = pedidoBebidas.get(i).getQty();
+                qtyList.add(qty);
+            }
+
+        } else if (productType == "sobremesas") {
+            for (int i = 0; i < pedidoSobremesas.size(); i++) {
+                Integer qty = pedidoSobremesas.get(i).getQty();
+                qtyList.add(qty);
+            }
+        }
+        return qtyList;
+    }
+
+    public Integer getTotaisPorTipo(int pedidoId, String productType) {
+        Integer totais = 0;
+
+        if (productType == "pizzas") {
+            for (int i = 0; i < pedidoPizzas.size(); i++) {
+                PedidosPizzas currPedidoPizza = pedidoPizzas.get(i);
+                int pizzaValor = currPedidoPizza.getPizza().getPreco();
+                int quantidade = currPedidoPizza.getQty();
+                totais += pizzaValor * quantidade;
+            }
+        } else if (productType == "bebidas") {
+            for (int i = 0; i < pedidoBebidas.size(); i++) {
+                PedidosBebidas currPedidoBebida = pedidoBebidas.get(i);
+                int bebidaValor = currPedidoBebida.getBebida().getPreco();
+                int quantidade = currPedidoBebida.getQty();
+                totais += bebidaValor * quantidade;
+            }
+        } else if (productType == "sobremesas") {
+            for (int i = 0; i < pedidoSobremesas.size(); i++) {
+                PedidosSobremesas currPedidoSobremesa = pedidoSobremesas.get(i);
+                int sobremesaValor = currPedidoSobremesa.getSobremesa().getPreco();
+                int quantidade = currPedidoSobremesa.getQty();
+                totais += sobremesaValor * quantidade;
+            }
+        } else {
+            return totais;
+        }
+
+        return totais;
+    }
+
 }

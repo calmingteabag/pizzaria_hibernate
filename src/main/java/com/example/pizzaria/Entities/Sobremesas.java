@@ -1,6 +1,7 @@
 package com.example.pizzaria.Entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -9,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.example.pizzaria.Interfaces.ProdutosInterface;
 
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class Sobremesas implements ProdutosInterface {
     @Column(name = "preco")
     private int sobremesaPreco;
 
-    @OneToMany(mappedBy = "sobremesa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sobremesa", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PedidosSobremesas> pedidoSobremesa;
 
     public Sobremesas() {
