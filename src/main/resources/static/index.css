@@ -29,9 +29,18 @@ div.app_head {
     height: 10%;
     width: 100%;
     display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: aquamarine;
+    font-size: 3vh;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 div.app_content {
+    color: aquamarine;
+    font-size: 2.5vh;
+    font-family: Arial, Helvetica, sans-serif;
     height: 80%;
     width: 100%;
     display: flex;
@@ -41,6 +50,7 @@ div.app_content {
 }
 
 div.app_footer {
+    color: aquamarine;
     height: 10%;
     width: 100%;
     gap: 1vw;
@@ -48,81 +58,10 @@ div.app_footer {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-}
-
-/* 
-Footer styling
-*/
-div.app_footer_item {
-    border: 1px solid red;
-    width: 15vw;
-    height: 5vw;
     font-size: 2vh;
     font-family: Arial, Helvetica, sans-serif;
-    color: aliceblue;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
 }
 
-a.footer_link {
-    color: rgb(88, 124, 155)
-}
-
-/* 
-Content Styling
-*/
-
-div.app_content_top {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 5vh;
-    height: 10%;
-    width: 100%
-}
-
-div.app_content_middle {
-    height: 20%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: top;
-    justify-content: center;
-    gap: 1vw;
-
-}
-
-div.app_content_bottom {
-    height: 50%;
-    width: 100%;
-    /* display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center; */
-}
-
-/* 
-Search styling
-*/
-
-div.app_content_middle_title {
-    height: 30%;
-    width: 100%;
-    font-size: 5vh;
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-div.app_content_middle_search {
-    height: 70%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
 
 form.search_form {
     height: 60%;
@@ -135,26 +74,26 @@ form.search_form {
 }
 
 input.search_input {
-    height: 100%;
-    width: 90%;
+    height: 20%;
+    width: 40%;
+    border-radius: 0px;
     border-radius: 0px;
     border-style: solid;
     color: aquamarine;
-    background-color: rgb(0, 19, 31);
-    font-size: 3vh;
+    background-color: rgb(0, 65, 82);
+    font-size: 2.4vh;
     font-family: Arial, Helvetica, sans-serif;
-    margin: 0px;
 }
 
 input.search_button {
-    height: 100%;
-    width: 10%;
+    height: 23%;
+    width: 25%;
     border-radius: 0px;
     border-radius: 0px;
     border-style: solid;
     color: aquamarine;
-    background-color: rgb(0, 88, 112);
-    font-size: 3vh;
+    background-color: rgb(0, 65, 82);
+    font-size: 2.4vh;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -163,39 +102,12 @@ input.search_button:hover {
     background-color: rgb(3, 198, 252);
 }
 
-@media only screen and (max-width: 900px) {
+a {
+    color: rgb(5, 125, 155);
+    font-size: 2.5vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    div.app {
-        width: 90%;
-    }
-
-    div.app_content_top {
-        height: 20%
-    }
-
-
-    div.app_content_middle_search {
-        height: 70%;
-        width: 100%;
-    }
-
-    input.search_input {
-        width: 100%;
-        font-size: 3vh
-    }
-
-    input.search_button {
-        width: 20%;
-        font-size: 3vh;
-    }
-
-    div.app_footer_item {
-        width: 25vw;
-        height: 5vw;
-        font-size: 2vh;
-    }
-
-    div.app_content_bottom {
-        font-size: 2vh;
-    }
+br {
+    color: rgb(0, 139, 158);
 }
