@@ -15,50 +15,78 @@
         function addToCart() {
             let pizzas = document.getElementById("pizzas").value
             let pizzas_qty = document.getElementById("quantity").value
-
-
             localStorage.setItem("pizzas", pizzas_qty)
         }
 
     </script>
     <div class="app">
         <div class="app_head">
+            <p> Teste API</p>
 
         </div>
         <div class="app_content">
 
-            <div class="app_content_top"></div>
-            <div class="app_content_middle">
-                <div class="app_content_middle_title"> Teste </div>
-                <div class="app_content_middle_search">
+            <form class="search_form" method="POST" action="/processamento_teste" id="search_form">
+                <select name="pizzas" id="lang">
+                    <option value="">Select a Pizza flavour</option>
+                    <option value="frango_catupiry">Frango com Catupiry</option>
+                    <option value="calabresa">Calabresa</option>
+                    <option value="portuguesa">Portuguesa</option>
+                    <option value="marguerita">Marguerita</option>
 
-                    <form class="search_form" method="POST" action="/pedidos" id="search_form">
-                        <select name="pizzas" id="lang">
-                            <option value="">Select a Pizza flavour</option>
-                            <option value="frango_catupiry">Frango com Catupiry</option>
-                            <option value="calabresa">Calabresa</option>
-                            <option value="portuguesa">Portuguesa</option>
-                            <option value="marguerita">Marguerita</option>
+                </select>
 
-                        </select>
+                <select name="quantity">
+                    <option value="select">Select Quantity</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <!-- <button type="button" onclick="addToCart()"> Add to Cart</button> -->
+                <input class="search_button" type="submit" id="search_button" value="Add to cart">
+            </form>
 
-                        <select name="quantity">
-                            <option value="select">Select Quantity</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <!-- <button type="button" onclick="addToCart()"> Add to Cart</button> -->
-                        <input class="search_button" type="submit" id="search_button" value="Add to cart">
-                    </form>
+            <form class="search_form" method="POST" action="/insert_cliente" id="search_form">
+                <input class="search_input" type="text" id="nome" name="form_nome">
+                <input class="search_input" type="text" id="sobrenome" name="form_sobrenome">
+                <input class="search_button" type="submit" id="search_button" value="Add Cliente">
+            </form>
 
-                </div>
+            <form class="search_form" method="POST" action="/retrieve_pedido" id="search_form">
+                <input class="search_input" type="text" id="pedido" name="form_pedido_id">
+                <input class="search_button" type="submit" id="search_button" value="Buscar Pedido">
+            </form>
 
-            </div>
-            <div class="app_content_bottom">
-            </div>
+            <form class="search_form" method="POST" action="/update_pedido" id="search_form">
+                <input class="search_input" placeholder="Id do pedido para operação" type="text" name="pedido_id">
+                <input class="search_input" placeholder="nome pizza atual do pedido" type="text" name="pizza_antiga">
+                <input class="search_input" placeholder="nome pizza nova" type="text" name="pizza_nova">
+                <input class="search_button" type="submit" value="Update Pedido">
+            </form>
+
+            <form class="search_form" method="POST" action="/adiciona_pedido" id="search_form">
+                <input class="search_input" placeholder="Id do pedido para operação" type="text" name="pedido_id">
+                <input class="search_input" placeholder="quantidade pizza nova" type="text" name="pizza_nova_qty">
+                <input class="search_input" placeholder="nome pizza nova" type="text" name="pizza_nova">
+                <input class="search_button" type="submit" value="Add Pedido">
+            </form>
+
+
+            <form class="search_form" method="POST" action="/ver_json" id="search_form">
+                <input class="search_input" type="text" name="pedido_id">
+                <input class="search_button" type="submit" value="Ver JSON Pedido">
+            </form>
+
+        </div>
+
+        <div class="app_footer">
+            status message:<p th:text="${status_message}"></p>
+
+        </div>
+
+
 
 
 </body>
