@@ -1,5 +1,6 @@
 package com.example.pizzaria.Entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,14 +20,14 @@ public class PedidosPizzas implements PedidosProdutosInterface {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "pedido_bebida_id")
+    @Column(name = "pedido_pizza_id")
     private int pedidoPizzaId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pedido_id")
     private Pedidos pedido;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pizza_id")
     private Pizzas pizza;
 
