@@ -21,6 +21,8 @@
 package com.example.pizzaria.Interfaces;
 
 public interface ProdutosInterface {
+    public int getId();
+
     public String getNome();
 
     public void setNome(String novoNome);
