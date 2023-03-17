@@ -46,6 +46,10 @@ public class Bebidas implements ProdutosInterface {
         this.bebidaPreco = bebidasPreco;
     }
 
+    public int getId() {
+        return bebidaId;
+    };
+
     public void setNome(String novoNome) {
         this.bebidaNome = novoNome;
     };

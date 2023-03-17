@@ -46,6 +46,10 @@ public class Pizzas implements ProdutosInterface {
         this.pizzaPreco = pizzaPreco;
     }
 
+    public int getId() {
+        return pizzaId;
+    };
+
     public void setNome(String novoNome) {
         this.pizzaNome = novoNome;
     };

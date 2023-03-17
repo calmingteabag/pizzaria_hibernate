@@ -46,6 +46,10 @@ public class Sobremesas implements ProdutosInterface {
         this.sobremesaPreco = sobremesaPreco;
     }
 
+    public int getId() {
+        return sobremesaId;
+    };
+
     public void setNome(String novoNome) {
         this.sobremesaNome = novoNome;
     };
