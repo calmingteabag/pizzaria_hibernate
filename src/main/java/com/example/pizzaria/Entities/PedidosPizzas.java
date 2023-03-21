@@ -10,6 +10,10 @@ import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 import com.example.pizzaria.Interfaces.PedidosProdutosInterface;
 
@@ -33,6 +37,17 @@ public class PedidosPizzas implements PedidosProdutosInterface {
 
     @Column(name = "quantidade")
     private int quantidade;
+
+    @Column(name = "nome_pizza")
+    private String nomePizza;
+
+    @CreationTimestamp
+    @Column(name = "data_criacao")
+    private LocalDateTime horaCriada;
+
+    @UpdateTimestamp
+    @Column(name = "data_modificacao")
+    private LocalDateTime horaModificada;
 
     public PedidosPizzas() {
     };
@@ -69,5 +84,13 @@ public class PedidosPizzas implements PedidosProdutosInterface {
 
     public Object getProduto() {
         return pizza;
+    }
+
+    public void setNomePizza(String nomePizza) {
+        this.nomePizza = nomePizza;
+    }
+
+    public String getNomePizza() {
+        return nomePizza;
     }
 }

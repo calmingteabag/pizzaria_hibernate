@@ -6,13 +6,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.MapKey;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clientes")
@@ -25,13 +30,22 @@ public class Clientes {
     private int clienteId;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Pedidos> clientePedidos = new ArrayList<>();
+    @MapKey(name = "pedidoId")
+    private Map<Integer, Pedidos> clientePedidos = new HashMap<>();
 
     @Column(name = "cliente_nome", nullable = false)
     private String clienteNome;
 
     @Column(name = "cliente_sobrenome")
     private String clienteSobrenome;
+
+    @CreationTimestamp
+    @Column(name = "data_criacao")
+    private LocalDateTime horaCriada;
+
+    @UpdateTimestamp
+    @Column(name = "data_modificacao")
+    private LocalDateTime horaModificada;
 
     public Clientes() {
     };
@@ -60,8 +74,25 @@ public class Clientes {
         this.clienteSobrenome = novoSobrenome;
     }
 
-    public List<Pedidos> getClientePedidos() {
-        return clientePedidos;
+    // public List<Pedidos> getClientePedidos() {
+    // return clientePedidos;
+    // }
+
+    // public Map<Integer, Pedidos> getClientePedidos() {
+    // return clientePedidos;
+    // }
+
+    public Pedidos getSpecificPedido(Integer pedidoId) {
+        return clientePedidos.get(pedidoId);
+    }
+
+    public Pedidos getSpecificPedidoFromList(int pedidoId) {
+        for (int i = 0; i < clientePedidos.size(); i++) {
+            if (clientePedidos.get(i).getPedidoId() == pedidoId) {
+                return clientePedidos.get(i);
+            }
+        }
+        return null;
     }
 
 }
