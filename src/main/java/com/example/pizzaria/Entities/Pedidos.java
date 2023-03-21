@@ -35,17 +35,17 @@ public class Pedidos {
     @ManyToOne(fetch = FetchType.EAGER)
     private Clientes cliente;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @Column(name = "pedido_Pizzas")
     @MapKey(name = "nomePizza")
     private Map<String, PedidosPizzas> pedidoPizzas;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @Column(name = "pedido_Bebidas")
     @MapKey(name = "nomeBebida")
     private Map<String, PedidosBebidas> pedidoBebidas;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @Column(name = "pedido_Sobremesas")
     @MapKey(name = "nomeSobremesa")
     private Map<String, PedidosSobremesas> pedidoSobremesas;

@@ -27,11 +27,11 @@ public class PedidosSobremesas implements PedidosProdutosInterface {
     @Column(name = "pedido_sobremesa_id")
     private int pedidoSobremesaId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "pedido_id")
     private Pedidos pedido;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(name = "sobremesa_id")
     private Sobremesas sobremesa;
 

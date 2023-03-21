@@ -29,7 +29,7 @@ public class Clientes {
     @Column(name = "cliente_id")
     private int clienteId;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @MapKey(name = "pedidoId")
     private Map<Integer, Pedidos> clientePedidos = new HashMap<>();
 

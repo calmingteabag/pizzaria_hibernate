@@ -38,7 +38,7 @@ public class Sobremesas implements Produtos {
     @Column(name = "preco")
     private int sobremesaPreco;
 
-    @OneToMany(mappedBy = "sobremesa", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sobremesa", fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private List<PedidosSobremesas> pedidoSobremesa;
 
     @CreationTimestamp
