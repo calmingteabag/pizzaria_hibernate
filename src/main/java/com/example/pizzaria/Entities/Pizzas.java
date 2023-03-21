@@ -9,15 +9,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-import org.hibernate.annotations.GenericGenerator;
+import java.time.LocalDateTime;
 
-import com.example.pizzaria.Interfaces.ProdutosInterface;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.example.pizzaria.Interfaces.Produtos;
 
 import java.util.List;
 
 @Entity
 @Table(name = "pizzas")
-public class Pizzas implements ProdutosInterface {
+public class Pizzas implements Produtos {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -36,6 +40,14 @@ public class Pizzas implements ProdutosInterface {
 
     @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PedidosPizzas> pedidoPizza;
+
+    @CreationTimestamp
+    @Column(name = "data_criacao")
+    private LocalDateTime horaCriada;
+
+    @UpdateTimestamp
+    @Column(name = "data_modificacao")
+    private LocalDateTime horaModificada;
 
     public Pizzas() {
     };
