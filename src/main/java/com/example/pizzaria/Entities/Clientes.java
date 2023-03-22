@@ -50,8 +50,9 @@ public class Clientes {
     public Clientes() {
     };
 
-    public Clientes(String nome) {
+    public Clientes(String nome, String sobreNome) {
         this.clienteNome = nome;
+        this.clienteSobrenome = sobreNome;
     }
 
     public int getId() {
