@@ -3,6 +3,7 @@ package com.example.pizzaria.Models;
 import com.example.pizzaria.Interfaces.PedidoProduto;
 import com.example.pizzaria.Interfaces.Produtos;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.time.LocalDateTime;
 
@@ -91,16 +92,15 @@ public class Pizzas implements Produtos {
         return pedidoPizza;
     }
 
-    public void setAllPedidos(Map<String, PedidoProduto> newPedidos) {
-        this.pedidoPizza = (Map<String, PedidoProduto>) newPedidos;
+    public void setPedido(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
+        if (this.pedidoPizza == null) {
+            this.pedidoPizza = new HashMap<>();
+        }
+        this.pedidoPizza.put(pedidoProdutoKey, (PedidosPizzas) pedidoProduto);
     }
 
     public PedidoProduto getOnePedido(String pedidoKey) {
         return pedidoPizza.get(pedidoKey);
-    }
-
-    public void setOnePedido(String pedidoKey, PedidoProduto pedidoProduto) {
-        pedidoPizza.put(pedidoKey, pedidoProduto);
     }
 
     public void removeOnePedido(String pedidoKey) {

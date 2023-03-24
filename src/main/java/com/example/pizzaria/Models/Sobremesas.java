@@ -3,6 +3,7 @@ package com.example.pizzaria.Models;
 import com.example.pizzaria.Interfaces.PedidoProduto;
 import com.example.pizzaria.Interfaces.Produtos;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.time.LocalDateTime;
 
@@ -63,44 +64,43 @@ public class Sobremesas implements Produtos {
         return sobremesaId;
     };
 
-    public void setNome(String novoNome) {
-        this.sobremesaNome = novoNome;
-    };
-
     public String getNome() {
         return sobremesaNome;
     };
 
-    public void setDescricao(String novaDescricao) {
-        this.sobremesaDescricao = novaDescricao;
-    }
+    public void setNome(String novoNome) {
+        this.sobremesaNome = novoNome;
+    };
 
     public String getDescricao() {
         return sobremesaDescricao;
     }
 
-    public void setPreco(int novoPreco) {
-        this.sobremesaPreco = novoPreco;
+    public void setDescricao(String novaDescricao) {
+        this.sobremesaDescricao = novaDescricao;
     }
 
     public int getPreco() {
         return sobremesaPreco;
     }
 
+    public void setPreco(int novoPreco) {
+        this.sobremesaPreco = novoPreco;
+    }
+
     public Map<String, PedidoProduto> getAllPedidos() {
         return pedidoSobremesa;
     }
 
-    public void setAllPedidos(Map<String, PedidoProduto> newPedidos) {
+    public void setPedido(Map<String, PedidoProduto> newPedidos) {
+        if (this.pedidoSobremesa == null) {
+            this.pedidoSobremesa = new HashMap<>();
+        }
         this.pedidoSobremesa = (Map<String, PedidoProduto>) newPedidos;
     }
 
     public PedidoProduto getOnePedido(String pedidoKey) {
         return pedidoSobremesa.get(pedidoKey);
-    }
-
-    public void setOnePedido(String pedidoKey, PedidoProduto pedidoProduto) {
-        pedidoSobremesa.put(pedidoKey, pedidoProduto);
     }
 
     public void removeOnePedido(String pedidoKey) {

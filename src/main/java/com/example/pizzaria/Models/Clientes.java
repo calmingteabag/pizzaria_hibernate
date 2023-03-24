@@ -1,5 +1,9 @@
 package com.example.pizzaria.Models;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,14 +14,9 @@ import jakarta.persistence.MapKey;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clientes")
@@ -75,25 +74,22 @@ public class Clientes {
         this.clienteSobrenome = novoSobrenome;
     }
 
-    // public List<Pedidos> getClientePedidos() {
-    // return clientePedidos;
-    // }
-
-    // public Map<Integer, Pedidos> getClientePedidos() {
-    // return clientePedidos;
-    // }
-
-    public Pedidos getSpecificPedido(Integer pedidoId) {
-        return clientePedidos.get(pedidoId);
+    public Map<Integer, Pedidos> getAllPedidos() {
+        return clientePedidos;
     }
 
-    public Pedidos getSpecificPedidoFromList(int pedidoId) {
-        for (int i = 0; i < clientePedidos.size(); i++) {
-            if (clientePedidos.get(i).getPedidoId() == pedidoId) {
-                return clientePedidos.get(i);
-            }
+    public void setPedido(Integer idPedido, Pedidos pedido) {
+        if (this.clientePedidos == null) {
+            this.clientePedidos = new HashMap<>();
         }
-        return null;
+        this.clientePedidos.put(idPedido, pedido);
     }
 
+    public Pedidos getOnePedido(Integer idPedido) {
+        return clientePedidos.get(idPedido);
+    }
+
+    public void removeOnePedido(Integer idPedido) {
+        clientePedidos.remove(idPedido);
+    }
 }
