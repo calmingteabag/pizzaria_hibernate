@@ -41,17 +41,17 @@ public class Pedidos {
             CascadeType.PERSIST })
     @Column(name = "pedido_Pizzas")
     @MapKey(name = "nomeProduto")
-    private Map<String, PedidoProduto> pedidoPizzas;
+    private Map<String, PedidosPizzas> pedidoPizzas;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @Column(name = "pedido_Bebidas")
     @MapKey(name = "nomeProduto")
-    private Map<String, PedidoProduto> pedidoBebidas;
+    private Map<String, PedidosBebidas> pedidoBebidas;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @Column(name = "pedido_Sobremesas")
     @MapKey(name = "nomeProduto")
-    private Map<String, PedidoProduto> pedidoSobremesas;
+    private Map<String, PedidosSobremesas> pedidoSobremesas;
 
     @CreationTimestamp
     @Column(name = "data_criacao")
@@ -64,8 +64,8 @@ public class Pedidos {
     public Pedidos() {
     };
 
-    public Pedidos(Clientes newCliente, Map<String, PedidoProduto> pizzas, Map<String, PedidoProduto> bebidas,
-            Map<String, PedidoProduto> sobremesas) {
+    public Pedidos(Clientes newCliente, Map<String, PedidosPizzas> pizzas, Map<String, PedidosBebidas> bebidas,
+            Map<String, PedidosSobremesas> sobremesas) {
         this.cliente = newCliente;
         this.pedidoPizzas = pizzas;
         this.pedidoBebidas = bebidas;
@@ -96,7 +96,7 @@ public class Pedidos {
         this.cliente = cliente;
     }
 
-    public Map<String, PedidoProduto> getAllPedidoProduto(String tipoProduto) {
+    public Map<String, ? extends PedidoProduto> getAllPedidoProduto(String tipoProduto) {
         switch (tipoProduto) {
             case "pizza":
                 return pedidoPizzas;

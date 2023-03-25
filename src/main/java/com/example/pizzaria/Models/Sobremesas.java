@@ -41,7 +41,7 @@ public class Sobremesas implements Produtos {
 
     @OneToMany(mappedBy = "sobremesa", fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @Column(name = "pedidos_sobremesa")
-    private Map<String, PedidoProduto> pedidoSobremesa;
+    private Map<String, PedidosSobremesas> pedidoSobremesa;
 
     @CreationTimestamp
     @Column(name = "data_criacao")
@@ -88,7 +88,7 @@ public class Sobremesas implements Produtos {
         this.sobremesaPreco = novoPreco;
     }
 
-    public Map<String, PedidoProduto> getAllPedidos() {
+    public Map<String, PedidosSobremesas> getAllPedidos() {
         return pedidoSobremesa;
     }
 
