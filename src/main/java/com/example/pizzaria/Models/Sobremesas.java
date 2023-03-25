@@ -92,11 +92,11 @@ public class Sobremesas implements Produtos {
         return pedidoSobremesa;
     }
 
-    public void setPedido(Map<String, PedidoProduto> newPedidos) {
+    public void setPedido(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
         if (this.pedidoSobremesa == null) {
             this.pedidoSobremesa = new HashMap<>();
         }
-        this.pedidoSobremesa = (Map<String, PedidoProduto>) newPedidos;
+        pedidoSobremesa.put(pedidoProdutoKey, (PedidosSobremesas) pedidoProduto);
     }
 
     public PedidoProduto getOnePedido(String pedidoKey) {

@@ -96,7 +96,7 @@ public class Pizzas implements Produtos {
         if (this.pedidoPizza == null) {
             this.pedidoPizza = new HashMap<>();
         }
-        this.pedidoPizza.put(pedidoProdutoKey, (PedidosPizzas) pedidoProduto);
+        pedidoPizza.put(pedidoProdutoKey, (PedidosPizzas) pedidoProduto);
     }
 
     public PedidoProduto getOnePedido(String pedidoKey) {
