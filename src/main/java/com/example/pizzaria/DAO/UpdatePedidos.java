@@ -53,7 +53,7 @@ public class UpdatePedidos extends BuscaProdutos {
                     session.close();
 
                     return String.format("Pedido ID: %s. | Alteração: Adicionado %s pizzas de %s",
-                            pedido.getPedidoId(), novaQuantidade, novaPizza.getNome());
+                            pedidoId, novaQuantidade, novaPizza.getNome());
                 }
 
             case "bebida":

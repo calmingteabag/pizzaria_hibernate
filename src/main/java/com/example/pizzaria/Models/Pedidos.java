@@ -76,7 +76,7 @@ public class Pedidos {
         this.cliente = newCliente;
     }
 
-    public int getPedidoId() {
+    public int getId() {
         return pedidoId;
     }
 

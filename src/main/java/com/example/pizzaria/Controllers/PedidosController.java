@@ -9,9 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.pizzaria.DAO.CreatePedido;
+import com.example.pizzaria.DAO.RemovePedidos;
 import com.example.pizzaria.DAO.UpdatePedidos;
-import com.example.pizzaria.Entities.Pedidos;
-import com.example.pizzaria.Services.CreatePedido;
+// import com.example.pizzaria.DAO.RemovePedidos;
+// import com.example.pizzaria.DAO.UpdatePedidos;
+import com.example.pizzaria.Models.Pedidos;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -35,21 +38,20 @@ public class PedidosController {
             @RequestParam String novo_nome,
             HttpServletRequest request, Model model) {
 
-        HashSet<String> setProdutos = new HashSet<>(Arrays.asList("pizza", "bebida", "sobremesa"));
+        HashSet<String> setProdutos = new HashSet<>(Arrays.asList("pizza", "bebida",
+                "sobremesa"));
         String tipoProduto = tipo_produto.toLowerCase();
-
-        // check to see if pedido_id is a integer, and it existis in dB
-        // if ( ) { // msg to html}
 
         if (setProdutos.contains(tipoProduto) == false) {
 
             model.addAttribute("status_message",
-                    "Produto inexistente. Use \"pizzas\", \"bebidas\" ou \"sobremesas\" (sem aspas) ");
+                    "Produto inexistente. Use \"pizzas\", \"bebidas\" ou \"sobremesas\" (semaspas) ");
             return "teste";
         }
 
         UpdatePedidos update = new UpdatePedidos();
-        String resposta = update.updatePedidoByName(Pedidos.class, tipo_produto, pedido_id, nova_quantidade,
+        String resposta = update.updatePedidoByName(Pedidos.class, tipo_produto,
+                pedido_id, nova_quantidade,
                 novo_nome);
 
         model.addAttribute("status_message", resposta);
@@ -62,7 +64,17 @@ public class PedidosController {
 
     // }
 
-    // @PostMapping("remove_items_pedido")
-    // public String deleteItensPedido() {
-    // }
+    @PostMapping("/remove_itens_pedido")
+    public String deleteItensPedido(@RequestParam String pedido_id,
+            @RequestParam String tipo_produto,
+            @RequestParam String nome_produto, HttpServletRequest request, Model model) {
+
+        RemovePedidos remove = new RemovePedidos();
+        String resposta = remove.removeItensPedido(tipo_produto, pedido_id,
+                nome_produto);
+
+        model.addAttribute("status_message", resposta);
+
+        return "teste";
+    }
 }
