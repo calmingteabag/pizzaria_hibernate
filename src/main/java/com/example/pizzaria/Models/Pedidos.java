@@ -41,17 +41,17 @@ public class Pedidos {
             CascadeType.PERSIST })
     @Column(name = "pedido_Pizzas")
     @MapKey(name = "nomeProduto")
-    private Map<String, PedidosPizzas> pedidoPizzas;
+    private Map<String, PedidoProduto> pedidoPizzas;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @Column(name = "pedido_Bebidas")
     @MapKey(name = "nomeProduto")
-    private Map<String, PedidosBebidas> pedidoBebidas;
+    private Map<String, PedidoProduto> pedidoBebidas;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @Column(name = "pedido_Sobremesas")
     @MapKey(name = "nomeProduto")
-    private Map<String, PedidosSobremesas> pedidoSobremesas;
+    private Map<String, PedidoProduto> pedidoSobremesas;
 
     @CreationTimestamp
     @Column(name = "data_criacao")
@@ -64,8 +64,8 @@ public class Pedidos {
     public Pedidos() {
     };
 
-    public Pedidos(Clientes newCliente, Map<String, PedidosPizzas> pizzas, Map<String, PedidosBebidas> bebidas,
-            Map<String, PedidosSobremesas> sobremesas) {
+    public Pedidos(Clientes newCliente, Map<String, PedidoProduto> pizzas, Map<String, PedidoProduto> bebidas,
+            Map<String, PedidoProduto> sobremesas) {
         this.cliente = newCliente;
         this.pedidoPizzas = pizzas;
         this.pedidoBebidas = bebidas;
@@ -96,13 +96,18 @@ public class Pedidos {
         this.cliente = cliente;
     }
 
-    public PedidoProduto getAllPedidoProduto(PedidoProduto pedidoProduto) {
-        if (pedidoProduto instanceof PedidosPizzas) {
-            return (PedidoProduto) pedidoPizzas;
-        } else if (pedidoProduto instanceof PedidosBebidas) {
-            return (PedidoProduto) pedidoBebidas;
-        } else {
-            return (PedidoProduto) pedidoSobremesas;
+    public Map<String, PedidoProduto> getAllPedidoProduto(String tipoProduto) {
+        switch (tipoProduto) {
+            case "pizza":
+                return pedidoPizzas;
+
+            case "bebida":
+                return pedidoBebidas;
+
+            case "sobremesa":
+                return pedidoSobremesas;
+            default:
+                return new HashMap<>();
         }
     }
 
