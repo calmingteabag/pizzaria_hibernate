@@ -131,23 +131,34 @@ public class Pedidos {
         }
     }
 
-    public PedidoProduto getOnePedidoProduto(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
-        if (pedidoProduto instanceof PedidosPizzas) {
-            return (PedidoProduto) pedidoPizzas.get(pedidoProdutoKey);
-        } else if (pedidoProduto instanceof PedidosBebidas) {
-            return (PedidoProduto) pedidoBebidas.get(pedidoProdutoKey);
-        } else {
-            return (PedidoProduto) pedidoSobremesas.get(pedidoProdutoKey);
+    public PedidoProduto getOnePedidoProduto(String pedidoProdutoKey, String tipoProduto) {
+
+        switch (tipoProduto) {
+            case "pizza":
+                return (PedidoProduto) pedidoPizzas.get(pedidoProdutoKey);
+
+            case "bebida":
+                return (PedidoProduto) pedidoBebidas.get(pedidoProdutoKey);
+
+            case "sobremesa":
+                return (PedidoProduto) pedidoSobremesas.get(pedidoProdutoKey);
+            default:
+                return null;
         }
     }
 
-    public void removeOnePedidoProduto(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
-        if (pedidoProduto instanceof PedidosPizzas) {
-            pedidoPizzas.remove(pedidoProdutoKey);
-        } else if (pedidoProduto instanceof PedidosBebidas) {
-            pedidoBebidas.remove(pedidoProdutoKey);
-        } else {
-            pedidoSobremesas.remove(pedidoProdutoKey);
+    public void removeOnePedidoProduto(String pedidoProdutoKey, String tipoProduto) {
+
+        switch (tipoProduto) {
+            case "pizza":
+                pedidoPizzas.remove(pedidoProdutoKey);
+
+            case "bebida":
+                pedidoBebidas.remove(pedidoProdutoKey);
+
+            case "sobremesa":
+                pedidoSobremesas.remove(pedidoProdutoKey);
         }
+
     }
 }
