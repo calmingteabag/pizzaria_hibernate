@@ -88,22 +88,22 @@ public class Sobremesas implements Produtos {
         this.sobremesaPreco = novoPreco;
     }
 
-    public Map<String, PedidosSobremesas> getAllPedidos() {
+    public Map<String, PedidosSobremesas> getAllPedidoProduto() {
         return pedidoSobremesa;
     }
 
-    public void setPedido(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
+    public void setPedidoProduto(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
         if (this.pedidoSobremesa == null) {
             this.pedidoSobremesa = new HashMap<>();
         }
         pedidoSobremesa.put(pedidoProdutoKey, (PedidosSobremesas) pedidoProduto);
     }
 
-    public PedidoProduto getOnePedido(String pedidoKey) {
+    public PedidoProduto getOnePedidoProduto(String pedidoKey) {
         return pedidoSobremesa.get(pedidoKey);
     }
 
-    public void removeOnePedido(String pedidoKey) {
+    public void removeOnePedidoProduto(String pedidoKey) {
         pedidoSobremesa.remove(pedidoKey);
     }
 }

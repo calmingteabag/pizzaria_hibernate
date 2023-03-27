@@ -88,22 +88,22 @@ public class Bebidas implements Produtos {
         this.bebidaPreco = novoPreco;
     }
 
-    public Map<String, PedidosBebidas> getAllPedidos() {
+    public Map<String, PedidosBebidas> getAllPedidoProduto() {
         return pedidoBebida;
     }
 
-    public void setPedido(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
+    public void setPedidoProduto(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
         if (this.pedidoBebida == null) {
             this.pedidoBebida = new HashMap<>();
         }
         pedidoBebida.put(pedidoProdutoKey, (PedidosBebidas) pedidoProduto);
     }
 
-    public PedidoProduto getOnePedido(String pedidoKey) {
+    public PedidoProduto getOnePedidoProduto(String pedidoKey) {
         return pedidoBebida.get(pedidoKey);
     }
 
-    public void removeOnePedido(String pedidoKey) {
+    public void removeOnePedidoProduto(String pedidoKey) {
         pedidoBebida.remove(pedidoKey);
     }
 }

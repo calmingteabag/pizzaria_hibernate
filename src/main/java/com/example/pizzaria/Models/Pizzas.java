@@ -88,22 +88,22 @@ public class Pizzas implements Produtos {
         this.pizzaPreco = novoPreco;
     }
 
-    public Map<String, PedidosPizzas> getAllPedidos() {
+    public Map<String, PedidosPizzas> getAllPedidoProduto() {
         return pedidoPizza;
     }
 
-    public void setPedido(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
+    public void setPedidoProduto(String pedidoProdutoKey, PedidoProduto pedidoProduto) {
         if (this.pedidoPizza == null) {
             this.pedidoPizza = new HashMap<>();
         }
         pedidoPizza.put(pedidoProdutoKey, (PedidosPizzas) pedidoProduto);
     }
 
-    public PedidoProduto getOnePedido(String pedidoKey) {
+    public PedidoProduto getOnePedidoProduto(String pedidoKey) {
         return pedidoPizza.get(pedidoKey);
     }
 
-    public void removeOnePedido(String pedidoKey) {
+    public void removeOnePedidoProduto(String pedidoKey) {
         pedidoPizza.remove(pedidoKey);
     }
 
