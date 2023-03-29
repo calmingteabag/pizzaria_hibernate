@@ -42,6 +42,9 @@ public class PedidosSobremesas implements PedidoProduto {
     @Column(name = "nome_produto")
     private String nomeProduto;
 
+    @Column(name = "map_key")
+    private String mapKey;
+
     @CreationTimestamp
     @Column(name = "data_criacao")
     private LocalDateTime horaCriada;
@@ -93,5 +96,13 @@ public class PedidosSobremesas implements PedidoProduto {
 
     public void setNomeProduto(String produto) {
         this.nomeProduto = produto;
+    }
+
+    public String getMapKey() {
+        return mapKey;
+    }
+
+    public void setMapKey(String mapKey) {
+        this.mapKey = mapKey;
     }
 }

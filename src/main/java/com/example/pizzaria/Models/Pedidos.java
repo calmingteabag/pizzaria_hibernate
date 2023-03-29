@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKey;
+import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.MapKeyJoinColumn;
 import jakarta.persistence.OneToMany;
 
 import java.time.LocalDateTime;
@@ -40,17 +42,19 @@ public class Pedidos {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE,
             CascadeType.PERSIST })
     @Column(name = "pedido_Pizzas")
-    @MapKey(name = "nomeProduto")
+    @MapKey(name = "mapKey")
     private Map<String, PedidosPizzas> pedidoPizzas;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE,
+            CascadeType.PERSIST })
     @Column(name = "pedido_Bebidas")
-    @MapKey(name = "nomeProduto")
+    @MapKey(name = "mapKey")
     private Map<String, PedidosBebidas> pedidoBebidas;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = { CascadeType.MERGE,
+            CascadeType.PERSIST })
     @Column(name = "pedido_Sobremesas")
-    @MapKey(name = "nomeProduto")
+    @MapKey(name = "mapKey")
     private Map<String, PedidosSobremesas> pedidoSobremesas;
 
     @CreationTimestamp
@@ -116,6 +120,7 @@ public class Pedidos {
             if (this.pedidoPizzas == null) {
                 this.pedidoPizzas = new HashMap<>();
             }
+            System.out.println("O valor de pedidoProdutoKey é: " + pedidoProdutoKey);
             pedidoPizzas.put(pedidoProdutoKey, (PedidosPizzas) pedidoProduto);
 
         } else if (pedidoProduto instanceof PedidosBebidas) {
