@@ -45,6 +45,9 @@ public class PedidosBebidas implements PedidoProduto {
     @Column(name = "map_key")
     private String mapKey;
 
+    @Column(name = "total_produto")
+    private int totalProduto;
+
     @CreationTimestamp
     @Column(name = "data_criacao")
     private LocalDateTime horaCriada;
@@ -96,6 +99,14 @@ public class PedidosBebidas implements PedidoProduto {
 
     public void setNomeProduto(String produto) {
         this.nomeProduto = produto;
+    }
+
+    public int getTotalProduto() {
+        return totalProduto;
+    }
+
+    public void setTotalProduto(int newTotalProduto) {
+        this.totalProduto = newTotalProduto;
     }
 
     public String getMapKey() {

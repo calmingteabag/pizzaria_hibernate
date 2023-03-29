@@ -9,8 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKey;
-import jakarta.persistence.MapKeyColumn;
-import jakarta.persistence.MapKeyJoinColumn;
 import jakarta.persistence.OneToMany;
 
 import java.time.LocalDateTime;
@@ -56,6 +54,18 @@ public class Pedidos {
     @Column(name = "pedido_Sobremesas")
     @MapKey(name = "mapKey")
     private Map<String, PedidosSobremesas> pedidoSobremesas;
+
+    @Column(name = "total_pizzas")
+    private int totalPedidosPizzas;
+
+    @Column(name = "total_bebidas")
+    private int totalPedidosBebidas;
+
+    @Column(name = "total_sobremesas")
+    private int totalPedidosSobremesas;
+
+    @Column(name = "total_pedido")
+    private int totalPedido;
 
     @CreationTimestamp
     @Column(name = "data_criacao")
@@ -164,6 +174,38 @@ public class Pedidos {
             case "sobremesa":
                 pedidoSobremesas.remove(pedidoProdutoKey);
         }
-
     }
+
+    public int getTotalPedidosPizzas() {
+        return totalPedidosPizzas;
+    }
+
+    public void setTotalPedidosPizzas(int newTotal) {
+        this.totalPedidosPizzas = newTotal;
+    }
+
+    public int getTotalPedidosBebidas() {
+        return totalPedidosBebidas;
+    }
+
+    public void setTotalPedidosBebidas(int newTotal) {
+        this.totalPedidosBebidas = newTotal;
+    }
+
+    public int getTotalPedidosSobremesas() {
+        return totalPedidosSobremesas;
+    }
+
+    public void setTotalPedidosSobremesas(int newTotal) {
+        this.totalPedidosSobremesas = newTotal;
+    }
+
+    public int getTotalPedido() {
+        return totalPedido;
+    }
+
+    public void setTotalPedidos(int newTotal) {
+        this.totalPedido = newTotal;
+    }
+
 }
