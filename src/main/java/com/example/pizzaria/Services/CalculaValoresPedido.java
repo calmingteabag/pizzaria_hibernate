@@ -1,11 +1,14 @@
 package com.example.pizzaria.Services;
 
-import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
-import com.example.pizzaria.Entities.*;
+import com.example.pizzaria.Models.Pedidos;
+import com.example.pizzaria.Models.PedidosBebidas;
+import com.example.pizzaria.Models.PedidosPizzas;
+import com.example.pizzaria.Models.PedidosSobremesas;
 import com.example.pizzaria.Utils.HibernateSession;
 
 @Service
@@ -17,73 +20,66 @@ public class CalculaValoresPedido {
     public Integer calculaTotaisPorTipo(int pedidoId, String productType) {
         Session session = HibernateSession.getSession();
         Pedidos pedido = session.get(Pedidos.class, pedidoId);
-        int totais = 0;
+        int totalTipoProduto = 0;
 
         if (productType == "pizzas") {
-            List<PedidosPizzas> pedidosPizzas = pedido.getPedidosPizzas();
+            Map<String, ?> pedidosPizzas = pedido.getAllPedidoProduto(productType);
 
-            for (int i = 0; i < pedidosPizzas.size(); i++) {
-                PedidosPizzas currPedidoPizza = pedidosPizzas.get(i);
-                int pizzaValor = currPedidoPizza.getPizza().getPreco();
-                int quantidade = currPedidoPizza.getQty();
-                totais += pizzaValor * quantidade;
+            for (Map.Entry<String, ?> entry : pedidosPizzas.entrySet()) {
+                PedidosPizzas currPedidoPizza = (PedidosPizzas) entry.getValue();
+
+                int currPrice = currPedidoPizza.getProduto().getPreco();
+                int currQty = currPedidoPizza.getQty();
+                int totalProduto = currPrice * currQty;
+
+                totalTipoProduto += totalProduto;
             }
+            return totalTipoProduto;
+
         } else if (productType == "bebidas") {
-            List<PedidosBebidas> pedidosBebidas = pedido.getPedidosBebidas();
+            Map<String, ?> pedidosBebidas = pedido.getAllPedidoProduto(productType);
 
-            for (int i = 0; i < pedidosBebidas.size(); i++) {
-                PedidosBebidas currPedidoBebida = pedidosBebidas.get(i);
-                int bebidaValor = currPedidoBebida.getBebida().getPreco();
-                int quantidade = currPedidoBebida.getQty();
-                totais += bebidaValor * quantidade;
+            for (Map.Entry<String, ?> entry : pedidosBebidas.entrySet()) {
+                PedidosBebidas currPedidoBebida = (PedidosBebidas) entry.getValue();
+
+                int currPrice = currPedidoBebida.getProduto().getPreco();
+                int currQty = currPedidoBebida.getQty();
+                int totalProduto = currPrice * currQty;
+
+                totalTipoProduto += totalProduto;
             }
+
+            return totalTipoProduto;
+
         } else if (productType == "sobremesas") {
-            List<PedidosSobremesas> pedidosSobremesas = pedido.getPedidosSobremesas();
+            Map<String, ?> pedidosSobremesas = pedido.getAllPedidoProduto(productType);
 
-            for (int i = 0; i < pedidosSobremesas.size(); i++) {
-                PedidosSobremesas currPedidoSobremesa = pedidosSobremesas.get(i);
-                int sobremesaValor = currPedidoSobremesa.getSobremesa().getPreco();
-                int quantidade = currPedidoSobremesa.getQty();
-                totais += sobremesaValor * quantidade;
+            for (Map.Entry<String, ?> entry : pedidosSobremesas.entrySet()) {
+                PedidosSobremesas currPedidoSobremesa = (PedidosSobremesas) entry.getValue();
+
+                int currPrice = currPedidoSobremesa.getProduto().getPreco();
+                int currQty = currPedidoSobremesa.getQty();
+                int totalProduto = currPrice * currQty;
+
+                totalTipoProduto += totalProduto;
             }
+
+            return totalTipoProduto;
         } else {
-            return totais;
+            return totalTipoProduto;
         }
 
-        return totais;
     }
 
     public Integer calculaTotalGeral(int pedidoId) {
-        Session session = HibernateSession.getSession();
-        Pedidos pedido = session.get(Pedidos.class, pedidoId);
-        int totais = 0;
+        int totalPedido = 0;
 
-        List<PedidosPizzas> pedidosPizzas = pedido.getPedidosPizzas();
+        int totalPizzas = calculaTotaisPorTipo(pedidoId, "pizza");
+        int totalBebidas = calculaTotaisPorTipo(pedidoId, "bebida");
+        int totalSobremesas = calculaTotaisPorTipo(pedidoId, "sobremesa");
 
-        for (int i = 0; i < pedidosPizzas.size(); i++) {
-            PedidosPizzas currPedidoPizza = pedidosPizzas.get(i);
-            int pizzaValor = currPedidoPizza.getPizza().getPreco();
-            int quantidade = currPedidoPizza.getQty();
-            totais += pizzaValor * quantidade;
-        }
+        totalPedido = totalPizzas + totalBebidas + totalSobremesas;
 
-        List<PedidosBebidas> pedidosBebidas = pedido.getPedidosBebidas();
-
-        for (int i = 0; i < pedidosBebidas.size(); i++) {
-            PedidosBebidas currPedidoBebida = pedidosBebidas.get(i);
-            int bebidaValor = currPedidoBebida.getBebida().getPreco();
-            int quantidade = currPedidoBebida.getQty();
-            totais += bebidaValor * quantidade;
-        }
-
-        List<PedidosSobremesas> pedidosSobremesas = pedido.getPedidosSobremesas();
-
-        for (int i = 0; i < pedidosSobremesas.size(); i++) {
-            PedidosSobremesas currPedidoSobremesa = pedidosSobremesas.get(i);
-            int sobremesaValor = currPedidoSobremesa.getSobremesa().getPreco();
-            int quantidade = currPedidoSobremesa.getQty();
-            totais += sobremesaValor * quantidade;
-        }
-        return totais;
+        return totalPedido;
     }
 }
