@@ -64,8 +64,14 @@ public class Pedidos {
     @Column(name = "total_sobremesas")
     private int totalPedidosSobremesas;
 
-    @Column(name = "total_pedido")
-    private int totalPedido;
+    @Column(name = "total_parcial")
+    private int totalParcial;
+
+    @Column(name = "desconto")
+    private int desconto;
+
+    @Column(name = "total_final")
+    private int totalFinal;
 
     @CreationTimestamp
     @Column(name = "data_criacao")
@@ -157,6 +163,7 @@ public class Pedidos {
 
             case "sobremesa":
                 return (PedidoProduto) pedidoSobremesas.get(pedidoProdutoKey);
+
             default:
                 return null;
         }
@@ -176,36 +183,59 @@ public class Pedidos {
         }
     }
 
-    public int getTotalPedidosPizzas() {
-        return totalPedidosPizzas;
+    public int getTotalPedidos(String tipoProduto) {
+
+        switch (tipoProduto) {
+            case "pizza":
+                return totalPedidosPizzas;
+
+            case "bebida":
+                return totalPedidosBebidas;
+
+            case "sobremesa":
+                return totalPedidosSobremesas;
+
+            default:
+                return 0;
+        }
     }
 
-    public void setTotalPedidosPizzas(int newTotal) {
-        this.totalPedidosPizzas = newTotal;
+    public void setTotalPedidos(String tipoProduto, int newTotal) {
+
+        switch (tipoProduto) {
+            case "pizza":
+                this.totalPedidosPizzas = newTotal;
+
+            case "bebida":
+                this.totalPedidosBebidas = newTotal;
+
+            case "sobremesa":
+                this.totalPedidosSobremesas = newTotal;
+        }
     }
 
-    public int getTotalPedidosBebidas() {
-        return totalPedidosBebidas;
+    public int getTotalParcial() {
+        return totalParcial;
     }
 
-    public void setTotalPedidosBebidas(int newTotal) {
-        this.totalPedidosBebidas = newTotal;
+    public void setTotalParcial(int newTotalParcial) {
+        this.totalParcial = newTotalParcial;
     }
 
-    public int getTotalPedidosSobremesas() {
-        return totalPedidosSobremesas;
+    public int getDesconto() {
+        return desconto;
     }
 
-    public void setTotalPedidosSobremesas(int newTotal) {
-        this.totalPedidosSobremesas = newTotal;
+    public void setDesconto(int newDesconto) {
+        this.desconto = newDesconto;
     }
 
-    public int getTotalPedido() {
-        return totalPedido;
+    public int getTotalFinal() {
+        return totalFinal;
     }
 
-    public void setTotalPedidos(int newTotal) {
-        this.totalPedido = newTotal;
+    public void setTotalFinal(int newTotal) {
+        this.totalFinal = newTotal;
     }
 
 }

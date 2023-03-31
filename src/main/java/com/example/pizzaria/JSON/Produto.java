@@ -3,8 +3,6 @@ package com.example.pizzaria.JSON;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Produto {
-    @JsonProperty("nome")
-    private String nome;
 
     @JsonProperty("descricao")
     private String descricao;
@@ -18,21 +16,12 @@ public class Produto {
     @JsonProperty("total_produto")
     private Integer totalProduto;
 
-    public Produto(String newNome, String newDescricao, Integer newQty,
+    public Produto(String newDescricao, Integer newQty,
             Integer newValorUnitario, Integer newTotalProduto) {
-        this.nome = newNome;
         this.descricao = newDescricao;
         this.quantidade = newQty;
         this.valorUnitario = newValorUnitario;
         this.totalProduto = newTotalProduto;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String newNome) {
-        this.nome = newNome;
     }
 
     public String getDescricao() {
