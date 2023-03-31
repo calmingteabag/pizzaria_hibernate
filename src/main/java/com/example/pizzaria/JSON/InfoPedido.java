@@ -1,11 +1,16 @@
 package com.example.pizzaria.JSON;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class InfoPedido {
 
-    @JsonProperty("produto_nome")
-    private Produto produtoNome;
+    @JsonProperty("id_pedido")
+    private int idPedido;
+
+    @JsonProperty("produtos")
+    private Map<String, Produto> produtos;
 
     @JsonProperty("total_parcial")
     private Integer totalParcial;
@@ -13,23 +18,34 @@ public class InfoPedido {
     @JsonProperty("descontos")
     private Integer descontos;
 
-    @JsonProperty("total_pedido")
-    private Integer totalPedido;
+    @JsonProperty("total_final")
+    private Integer totalFinal;
 
-    public InfoPedido(Produto newprodutoNome,
-            Integer newTotalParcial, Integer newDesconto, Integer newTotalPedido) {
-        this.produtoNome = newprodutoNome;
-        this.totalParcial = newTotalParcial;
-        this.descontos = newDesconto;
-        this.totalPedido = newTotalPedido;
-    };
-
-    public Produto getProdutoNome() {
-        return produtoNome;
+    public InfoPedido() {
     }
 
-    public void setProdutoNome(Produto jsonProdutosDetalhes) {
-        this.produtoNome = jsonProdutosDetalhes;
+    public InfoPedido(Map<String, Produto> newProdutos,
+            Integer newTotalParcial, Integer newDesconto, Integer newTotalFinal) {
+        this.produtos = newProdutos;
+        this.totalParcial = newTotalParcial;
+        this.descontos = newDesconto;
+        this.totalFinal = newTotalFinal;
+    };
+
+    public Integer getIdPedido() {
+        return idPedido;
+    }
+
+    public void setIdPedido(Integer idPedido) {
+        this.idPedido = idPedido;
+    }
+
+    public Map<String, Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(Map<String, Produto> newProdutos) {
+        this.produtos = newProdutos;
     }
 
     public Integer getTotalParcial() {
@@ -48,11 +64,11 @@ public class InfoPedido {
         this.descontos = newDesconto;
     }
 
-    public Integer getTotalPedido() {
-        return totalPedido;
+    public Integer getTotalFinal() {
+        return totalFinal;
     }
 
-    public void setTotalPedido(Integer newTotalPedido) {
-        this.totalPedido = newTotalPedido;
+    public void setTotalFinal(Integer newTotalFinal) {
+        this.totalFinal = newTotalFinal;
     }
 }

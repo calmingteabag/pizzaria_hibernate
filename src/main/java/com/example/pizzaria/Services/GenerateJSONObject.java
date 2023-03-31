@@ -1,72 +1,49 @@
 package com.example.pizzaria.Services;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.Session;
+
 import org.springframework.stereotype.Service;
 
-import com.example.pizzaria.DAO.BuscaPedidoAtributos;
 import com.example.pizzaria.JSON.*;
+import com.example.pizzaria.Models.Pedidos;
+import com.example.pizzaria.Utils.HibernateSession;
 
 @Service
 public class GenerateJSONObject {
 
-    @Autowired
-    private BuscaPedidoAtributos buscaAtributos;
-
-    @Autowired
-    private CalculaValoresPedido calculoPedido;
-
     public GenerateJSONObject() {
     }
 
-    public JSONPedido generateJSONPedido(int pedidoId) {
-        // nome cliente
-        String nomeCliente = buscaAtributos.getClienteNome(pedidoId);
+    public JSONPedido generateJSONPedido(int pedidoId, String[] productList) {
+        // productlist = {"pizza", "bebida", "sobremesa", etx}
+        Session session = HibernateSession.getSession();
+        Pedidos pedido = session.get(Pedidos.class, pedidoId);
+        Map<String, Produto> mapPedido = new HashMap<String, Produto>();
+        GenerateMapProdutos generator = new GenerateMapProdutos();
 
-        // total geral
-        Integer totalGeral = calculoPedido.calculaTotalGeral(pedidoId);
+        for (int i = 0; i < productList.length; i++) {
+            Map<String, ?> produto = pedido.getAllPedidoProduto(productList[i]);
+            Map<String, Produto> produtoMap = generator.generateMap(produto);
+            mapPedido.putAll(produtoMap);
+        }
 
-        // Pizzas
-        // List<PedidosPizzas> pedidosPizzas = pedido.getPedidosPizzas();
-        ArrayList<?> insertPizzas = buscaAtributos.getPedidosNames(pedidoId, "pizzas");
-        ArrayList<?> insertQuantidadesPizzas = buscaAtributos.getPrecoUnitario(pedidoId, "pizzas");
-        ArrayList<?> insertPrecoUnitarioPizzas = buscaAtributos.getPedidosPrecos(pedidoId, "pizzas");
-        Integer totalProdutoPizzas = calculoPedido.calculaTotaisPorTipo(pedidoId, "pizzas");
+        JSONPedido pedidoJSON = new JSONPedido();
+        InfoCliente infoCliente = new InfoCliente();
+        InfoPedido infoPedido = new InfoPedido();
 
-        JSONPedidosDetalhes detalhesPizzas = new JSONPedidosDetalhes(totalProdutoPizzas,
-                insertQuantidadesPizzas,
-                insertPizzas,
-                insertPrecoUnitarioPizzas);
+        infoCliente.setIdCliente(pedido.getCliente().getId());
+        infoCliente.setNomeCliente(pedido.getCliente().getNome());
+        infoPedido.setIdPedido(pedido.getId());
+        infoPedido.setProdutos(mapPedido);
+        infoPedido.setDesconto(pedido.getDesconto());
+        infoPedido.setTotalParcial(pedido.getTotalParcial());
+        infoPedido.setTotalFinal(pedido.getTotalFinal());
+        pedidoJSON.setInfoCliente(infoCliente);
+        pedidoJSON.setInfoPedido(infoPedido);
 
-        // Bebidas
-        // List<PedidosBebidas> pedidosBebidas = pedido.getPedidosBebidas();
-        ArrayList<?> insertBebidas = buscaAtributos.getPedidosNames(pedidoId, "bebidas");
-        ArrayList<?> insertQuantidadesBebidas = buscaAtributos.getPrecoUnitario(pedidoId, "bebidas");
-        ArrayList<?> insertPrecoUnitarioBebidas = buscaAtributos.getPedidosPrecos(pedidoId, "bebidas");
-        Integer totalProdutoBebidas = calculoPedido.calculaTotaisPorTipo(pedidoId, "bebidas");
-
-        JSONPedidosDetalhes detalhesBebidas = new JSONPedidosDetalhes(totalProdutoBebidas,
-                insertQuantidadesBebidas,
-                insertBebidas,
-                insertPrecoUnitarioBebidas);
-
-        // Sobremesas
-        // List<PedidosSobremesas> pedidosSobremesas = pedido.getPedidosSobremesas();
-        ArrayList<?> insertSobremesas = buscaAtributos.getPedidosNames(pedidoId, "sobremesas");
-        ArrayList<?> insertQuantidadesSobremesas = buscaAtributos.getPrecoUnitario(pedidoId, "sobremesas");
-        ArrayList<?> insertPrecoUnitarioSobremesas = buscaAtributos.getPedidosPrecos(pedidoId, "sobremesas");
-        Integer totalProdutoSobremesas = calculoPedido.calculaTotaisPorTipo(pedidoId, "sobremesas");
-
-        JSONPedidosDetalhes detalhesSobremesas = new JSONPedidosDetalhes(totalProdutoSobremesas,
-                insertQuantidadesSobremesas, insertSobremesas,
-                insertPrecoUnitarioSobremesas);
-
-        JSONPedidosProdutos produtos = new JSONPedidosProdutos(detalhesPizzas, detalhesBebidas,
-                detalhesSobremesas);
-
-        JSONPedido jsonPedido = new JSONPedido(nomeCliente, produtos, totalGeral);
-
-        return jsonPedido;
+        return pedidoJSON;
     }
 }
