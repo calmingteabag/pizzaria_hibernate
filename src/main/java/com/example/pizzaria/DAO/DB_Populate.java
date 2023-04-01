@@ -5,8 +5,7 @@
 
 package com.example.pizzaria.DAO;
 
-import com.example.pizzaria.Entities.*;
-import com.example.pizzaria.Interfaces.ProdutosInterface;
+import com.example.pizzaria.Interfaces.Produtos;
 import com.example.pizzaria.Utils.HibernateSession;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.HashMap;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class DB_Populate {
 
@@ -52,46 +50,17 @@ public class DB_Populate {
         produtos.put("sobremesas", new ArrayList<>(sobremesasTest));
     };
 
-    public Boolean isTableFilled(String tableName) {
-        Session session = HibernateSession.getSession();
-        String checkSQLQuery = String.format(
-                "SELECT COUNT(*) FROM %s",
-                tableName);
-
-        Query<Integer> checkSQLQueryResult = session.createNativeQuery(checkSQLQuery, Integer.class);
-        Integer rowsQty = checkSQLQueryResult.getSingleResult();
-
-        if (rowsQty > 0) {
-            return true;
-        }
-        return false;
-    };
-
-    public Boolean isDuplicate(String tableName, String columnName, String insertValue) {
-        Session session = HibernateSession.getSession();
-        String checkSQLQuery = String.format("SELECT COUNT(*) FROM %s WHERE %s = %s", tableName,
-                columnName,
-                "'" + insertValue + "'");
-
-        Query<Integer> checkSQLQueryResult = session.createNativeQuery(checkSQLQuery, Integer.class);
-        Integer entriesQty = checkSQLQueryResult.getSingleResult();
-
-        if (entriesQty > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    public void productsInsert(ProdutosInterface entidadeHibernate, String tableName, String checkDuplicateColumn) {
+    public void productsInsert(Produtos entidadeHibernate, String tableName, String checkDuplicateColumn) {
         Session session = HibernateSession.getSession();
         ArrayList<String[]> productList = produtos.get(tableName);
+        ChecagensBancoDados checkDb = new ChecagensBancoDados();
 
         for (int i = 0; i < productList.size(); i++) {
             String nome = productList.get(i)[0];
 
-            if (!isDuplicate(tableName, checkDuplicateColumn, nome)) {
+            if (!checkDb.isDuplicate(tableName, checkDuplicateColumn, nome)) {
 
-                System.out.println(isDuplicate(tableName, "nome", nome));
+                System.out.println(checkDb.isDuplicate(tableName, "nome", nome));
                 String descricao = productList.get(i)[1];
                 int preco = Integer.parseInt(productList.get(i)[2]);
 

@@ -26,6 +26,7 @@ public class PedidosController {
 
         CreatePedido newPedido = new CreatePedido();
         newPedido.testInsert();
+        newPedido.setPedidosTotais(1, new String[] { "pizza", "bebida", "sobremesa" });
 
         return "blank";
     }
@@ -65,13 +66,13 @@ public class PedidosController {
     // }
 
     @PostMapping("/remove_itens_pedido")
-    public String deleteItensPedido(@RequestParam String pedido_id,
-            @RequestParam String tipo_produto,
+    public String removeItensPedido(@RequestParam String pedido_id,
+            @RequestParam String produto_id,
             @RequestParam String nome_produto, HttpServletRequest request, Model model) {
 
         RemovePedidos remove = new RemovePedidos();
-        String resposta = remove.removeItensPedido(tipo_produto, pedido_id,
-                nome_produto);
+        String resposta = remove.removeItensPedido(pedido_id,
+                produto_id, nome_produto);
 
         model.addAttribute("status_message", resposta);
 
