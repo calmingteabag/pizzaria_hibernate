@@ -12,17 +12,17 @@
         <property name="hibernate.connection.password">admin</property>
         <property name="connection.pool_size">10</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <!-- <mapping resource="Produtos.hbm.xml"/>   -->
-        <mapping class="com.example.pizzaria.Entities.Clientes"/>
-        <mapping class="com.example.pizzaria.Entities.Pedidos"/>
-        <mapping class="com.example.pizzaria.Entities.Pizzas"/>
-        <mapping class="com.example.pizzaria.Entities.Bebidas"/>
-        <mapping class="com.example.pizzaria.Entities.Sobremesas"/>
-        <mapping class="com.example.pizzaria.Entities.PedidosPizzas"/>
-        <mapping class="com.example.pizzaria.Entities.PedidosBebidas"/>
-        <mapping class="com.example.pizzaria.Entities.PedidosSobremesas"/>
+        <mapping class="com.example.pizzaria.Models.Clientes"/>
+        <mapping class="com.example.pizzaria.Models.Pedidos"/>
+        <mapping class="com.example.pizzaria.Models.Pizzas"/>
+        <mapping class="com.example.pizzaria.Models.Bebidas"/>
+        <mapping class="com.example.pizzaria.Models.Sobremesas"/>
+        <mapping class="com.example.pizzaria.Models.PedidosPizzas"/>
+        <mapping class="com.example.pizzaria.Models.PedidosBebidas"/>
+        <mapping class="com.example.pizzaria.Models.PedidosSobremesas"/>
+
   
     </session-factory>
 </hibernate-configuration>
