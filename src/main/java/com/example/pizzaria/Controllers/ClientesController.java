@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.pizzaria.DAO.CreateCliente;
+import com.example.pizzaria.DAO.RemoveCliente;
 import com.example.pizzaria.DAO.UpdateCliente;
-import com.example.pizzaria.Entities.Clientes;
+import com.example.pizzaria.Models.Clientes;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -23,8 +24,6 @@ public class ClientesController {
         String insertFeedback = createCliente.createNewCliente(Clientes.class, "clientes", "cliente_nome", form_nome,
                 form_sobrenome);
 
-        // model.addAttribute("nome_digitado", form_nome);
-        // model.addAttribute("sobrenome_digitado", form_sobrenome);
         model.addAttribute("insert_feedback", insertFeedback);
         return "blank";
     }
@@ -34,14 +33,23 @@ public class ClientesController {
             @RequestParam String form_id,
             HttpServletRequest request, Model model) {
 
-        UpdateCliente createCliente = new UpdateCliente();
-        String updateFeedback = createCliente.updateClienteById(Clientes.class, form_id,
+        UpdateCliente updateCliente = new UpdateCliente();
+        String updateFeedback = updateCliente.updateClienteById(Clientes.class, form_id,
                 form_nome,
                 form_sobrenome);
 
-        // model.addAttribute("nome_digitado", form_nome);
-        // model.addAttribute("sobrenome_digitado", form_sobrenome);
         model.addAttribute("insert_feedback", updateFeedback);
+
+        return "blank";
+    }
+
+    @PostMapping("/remove_cliente")
+    public String removeCliente(@RequestParam String form_id, HttpServletRequest request, Model model) {
+
+        RemoveCliente remove = new RemoveCliente();
+        String feedback = remove.removeClientById(form_id);
+        model.addAttribute("insert_feedback", feedback);
+
         return "blank";
     }
 }
