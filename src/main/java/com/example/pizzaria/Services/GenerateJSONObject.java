@@ -18,7 +18,7 @@ public class GenerateJSONObject {
     }
 
     public JSONPedido generateJSONPedido(int pedidoId, String[] productList) {
-        // productlist = {"pizza", "bebida", "sobremesa", etx}
+        // productList = {"pizza", "bebida", "sobremesa", etc}
         Session session = HibernateSession.getSession();
         Pedidos pedido = session.get(Pedidos.class, pedidoId);
         Map<String, Produto> mapPedido = new HashMap<String, Produto>();
@@ -36,11 +36,13 @@ public class GenerateJSONObject {
 
         infoCliente.setIdCliente(pedido.getCliente().getId());
         infoCliente.setNomeCliente(pedido.getCliente().getNome());
+
         infoPedido.setIdPedido(pedido.getId());
         infoPedido.setProdutos(mapPedido);
         infoPedido.setDesconto(pedido.getDesconto());
         infoPedido.setTotalParcial(pedido.getTotalParcial());
         infoPedido.setTotalFinal(pedido.getTotalFinal());
+
         pedidoJSON.setInfoCliente(infoCliente);
         pedidoJSON.setInfoPedido(infoPedido);
 
