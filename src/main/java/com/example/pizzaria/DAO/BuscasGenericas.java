@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.SelectionQuery;
 
-import com.example.pizzaria.Entities.*;
+import com.example.pizzaria.Models.*;
 import com.example.pizzaria.Utils.HibernateSession;
 
 public class BuscasGenericas {
@@ -14,11 +14,15 @@ public class BuscasGenericas {
     public String tableName;
     private Class<?> entity;
 
+    public BuscasGenericas() {
+    }
+
     public BuscasGenericas(Class<?> entity) {
         this.entity = entity;
     };
 
-    public int getIdByColumnValue(String tableName, String columnName, String columnValue, String getMethodName) {
+    public int getIdByColumnValue(Class<?> entity, String tableName, String columnName, String columnValue,
+            String getMethodName) {
         Session session = HibernateSession.getSession();
         String searchQuery = String.format("SELECT * FROM %s WHERE %s = %s", tableName,
                 columnName,
@@ -189,27 +193,28 @@ public class BuscasGenericas {
         return cliente;
     };
 
-    public List<?> getItemClassList(String column_name, String search_param, Boolean isSearchingForId) {
+    public List<?> getItemClassList(Class<?> entity, String tableName, String column_name, String searchParam,
+            Boolean isSearchingForId) {
         Session session = HibernateSession.getSession();
         String searchQuery;
 
         if (isSearchingForId) {
-            searchQuery = String.format("SELECT * FROM %s WHERE %s = %s", this.tableName,
+            searchQuery = String.format("SELECT * FROM %s WHERE %s = :buscaValor", tableName,
                     column_name,
-                    search_param);
+                    searchParam);
+        } else {
+            searchQuery = String.format("SELECT * FROM %s WHERE %s = :buscaValor", tableName,
+                    column_name,
+                    "'" + searchParam + "'");
         }
 
-        searchQuery = String.format("SELECT * FROM %s WHERE %s = %s", this.tableName,
-                column_name,
-                "'" + search_param + "'");
+        SelectionQuery<?> query = session.createNativeQuery(searchQuery, entity);
+        query.setParameter("buscaValor", searchParam);
 
-        SelectionQuery<?> dbQuery = session.createNativeQuery(
-                searchQuery,
-                entity);
-
-        List<?> dbSearchResultList = dbQuery.getResultList();
+        List<?> dbSearchResultList = query.getResultList();
         session.close();
 
         return dbSearchResultList;
     }
+
 }

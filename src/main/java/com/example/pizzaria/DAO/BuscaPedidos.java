@@ -3,7 +3,7 @@ package com.example.pizzaria.DAO;
 import org.hibernate.Session;
 import org.hibernate.query.SelectionQuery;
 
-import com.example.pizzaria.Entities.*;
+import com.example.pizzaria.Models.*;
 import com.example.pizzaria.Utils.HibernateSession;
 
 public class BuscaPedidos {
@@ -25,11 +25,11 @@ public class BuscaPedidos {
         String buscaString = String.format("SELECT * FROM %s WHERE %s = :buscaValorPedido", nomeTabela,
                 nomeColuna);
 
-        SelectionQuery<Pedidos> buscaProdutos = session.createNativeQuery(buscaString, classePedido);
-        buscaProdutos.setParameter("buscaValorPedido", nomePedido);
-        Pedidos produto = buscaProdutos.getSingleResult();
+        SelectionQuery<Pedidos> buscaPedidos = session.createNativeQuery(buscaString, classePedido);
+        buscaPedidos.setParameter("buscaValorPedido", nomePedido);
+        Pedidos pedido = buscaPedidos.getSingleResult();
 
-        return produto;
+        return pedido;
     }
 
 }
