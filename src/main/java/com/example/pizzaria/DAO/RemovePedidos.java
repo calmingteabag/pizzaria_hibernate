@@ -12,6 +12,7 @@ import com.example.pizzaria.Models.Pedidos;
 import com.example.pizzaria.Models.PedidosBebidas;
 import com.example.pizzaria.Models.PedidosPizzas;
 import com.example.pizzaria.Models.PedidosSobremesas;
+import com.example.pizzaria.Services.ProdutoHashMap;
 import com.example.pizzaria.Utils.HibernateSession;
 
 public class RemovePedidos {
