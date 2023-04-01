@@ -1,12 +1,12 @@
 package com.example.pizzaria.DAO;
 
-import com.example.pizzaria.Entities.*;
+import com.example.pizzaria.Models.*;
 import com.example.pizzaria.Utils.HibernateSession;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class UpdateCliente extends ChecagensBancoDados {
+public class UpdateCliente {
 
     public UpdateCliente() {
     };
