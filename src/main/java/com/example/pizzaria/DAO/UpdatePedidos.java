@@ -1,6 +1,7 @@
 package com.example.pizzaria.DAO;
 
 import com.example.pizzaria.Models.*;
+import com.example.pizzaria.Services.ProdutoHashMap;
 import com.example.pizzaria.Utils.HibernateSession;
 
 import java.util.Map;
@@ -27,16 +28,18 @@ public class UpdatePedidos extends BuscaProdutos {
 
         switch (tipoProduto) {
             case "pizza":
+                ProdutoHashMap hashPizza = new ProdutoHashMap();
                 Pizzas novaPizza = (Pizzas) buscaProdutoPorNome("pizzas",
                         "nome", novoProduto, Pizzas.class);
                 String novaPizzaNome = novaPizza.getNome();
+                String pizzaKey = hashPizza.generateKeyByObject(pedido, novaPizza);
                 Map<String, ?> pedidosPizzas = pedido.getAllPedidoProduto("pizza");
 
-                if (pedidosPizzas.containsKey(novoProduto)) { // pizza already exists, change qty.
-                    PedidosPizzas currPedidoPizza = (PedidosPizzas) pedidosPizzas.get(novoProduto);
+                if (pedidosPizzas.containsKey(pizzaKey)) { // pizza already exists, change qty.
+                    PedidosPizzas currPedidoPizza = (PedidosPizzas) pedidosPizzas.get(pizzaKey);
                     currPedidoPizza.setQty(intNovaQty);
 
-                    session.merge(pedido);
+                    session.merge(currPedidoPizza);
                     transaction.commit();
                     session.close();
 
@@ -46,7 +49,8 @@ public class UpdatePedidos extends BuscaProdutos {
                 } else {
                     PedidosPizzas insert = new PedidosPizzas(pedido, novaPizza, intNovaQty);
                     insert.setNomeProduto(novaPizzaNome);
-                    pedido.setPedidoProduto(novaPizzaNome, insert);
+                    pedido.setPedidoProduto(pizzaKey, insert);
+                    novaPizza.setPedidoProduto(pizzaKey, insert);
 
                     session.merge(pedido);
                     transaction.commit();
@@ -57,13 +61,15 @@ public class UpdatePedidos extends BuscaProdutos {
                 }
 
             case "bebida":
+                ProdutoHashMap hashBebida = new ProdutoHashMap();
                 Bebidas novaBebida = (Bebidas) buscaProdutoPorNome("bebidas",
                         "nome", novoProduto, Bebidas.class);
                 String novaBebidaNome = novaBebida.getNome();
                 Map<String, ?> pedidosBebidas = pedido.getAllPedidoProduto("bebida");
+                String bebidaKey = hashBebida.generateKeyByObject(pedido, novaBebida);
 
-                if (pedidosBebidas.containsKey(novoProduto)) {
-                    PedidosBebidas currPedidoBebida = (PedidosBebidas) pedidosBebidas.get(novoProduto);
+                if (pedidosBebidas.containsKey(bebidaKey)) {
+                    PedidosBebidas currPedidoBebida = (PedidosBebidas) pedidosBebidas.get(bebidaKey);
                     currPedidoBebida.setQty(intNovaQty);
 
                     session.merge(pedido);
@@ -76,7 +82,8 @@ public class UpdatePedidos extends BuscaProdutos {
                 } else {
                     PedidosBebidas insert = new PedidosBebidas(pedido, novaBebida, intNovaQty);
                     insert.setNomeProduto(novaBebidaNome);
-                    pedido.setPedidoProduto(novaBebidaNome, insert);
+                    pedido.setPedidoProduto(bebidaKey, insert);
+                    novaBebida.setPedidoProduto(bebidaKey, insert);
 
                     session.merge(pedido);
                     transaction.commit();
@@ -86,13 +93,15 @@ public class UpdatePedidos extends BuscaProdutos {
                             pedidoId, novaQuantidade, novaBebidaNome);
                 }
             case "sobremesa":
+                ProdutoHashMap hashSobremesa = new ProdutoHashMap();
                 Sobremesas novaSobremesa = (Sobremesas) buscaProdutoPorNome("bebidas",
                         "nome", novoProduto, Sobremesas.class);
                 String novaSobremesaNome = novaSobremesa.getNome();
                 Map<String, ?> pedidosSobremesas = pedido.getAllPedidoProduto("sobremesa");
+                String sobremesaKey = hashSobremesa.generateKeyByObject(pedido, novaSobremesa);
 
-                if (pedidosSobremesas.containsKey(novoProduto)) {
-                    PedidosSobremesas currPedidoSobremesa = (PedidosSobremesas) pedidosSobremesas.get(novoProduto);
+                if (pedidosSobremesas.containsKey(sobremesaKey)) {
+                    PedidosSobremesas currPedidoSobremesa = (PedidosSobremesas) pedidosSobremesas.get(sobremesaKey);
                     currPedidoSobremesa.setQty(intNovaQty);
 
                     session.merge(pedido);
@@ -105,7 +114,8 @@ public class UpdatePedidos extends BuscaProdutos {
                 } else {
                     PedidosSobremesas insert = new PedidosSobremesas(pedido, novaSobremesa, intNovaQty);
                     insert.setNomeProduto(novaSobremesaNome);
-                    pedido.setPedidoProduto(novaSobremesaNome, insert);
+                    pedido.setPedidoProduto(sobremesaKey, insert);
+                    novaSobremesa.setPedidoProduto(sobremesaKey, insert);
 
                     session.merge(pedido);
                     transaction.commit();
