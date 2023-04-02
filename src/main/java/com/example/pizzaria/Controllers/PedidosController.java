@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,8 @@ import com.example.pizzaria.DAO.UpdatePedidos;
 // import com.example.pizzaria.DAO.RemovePedidos;
 // import com.example.pizzaria.DAO.UpdatePedidos;
 import com.example.pizzaria.Models.Pedidos;
+import com.example.pizzaria.Services.UserInputChecker;
+import com.example.pizzaria.Utils.HibernateSession;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -39,31 +42,21 @@ public class PedidosController {
             @RequestParam String novo_nome,
             HttpServletRequest request, Model model) {
 
-        HashSet<String> setProdutos = new HashSet<>(Arrays.asList("pizza", "bebida",
-                "sobremesa"));
-        String tipoProduto = tipo_produto.toLowerCase();
-
-        if (setProdutos.contains(tipoProduto) == false) {
-
-            model.addAttribute("status_message",
-                    "Produto inexistente. Use \"pizzas\", \"bebidas\" ou \"sobremesas\" (semaspas) ");
+        UserInputChecker checker = new UserInputChecker();
+        String status = checker.checkInput(pedido_id, tipo_produto, nova_quantidade, novo_nome);
+        if (status != "ok") {
+            model.addAttribute("status_message", status);
             return "teste";
         }
 
         UpdatePedidos update = new UpdatePedidos();
-        String resposta = update.updatePedidoByName(Pedidos.class, tipo_produto,
-                pedido_id, nova_quantidade,
-                novo_nome);
+        String resposta = update.updatePedidoByName(Pedidos.class,
+                tipo_produto, pedido_id, nova_quantidade, novo_nome);
 
         model.addAttribute("status_message", resposta);
 
         return "teste";
     }
-
-    // @PostMapping("/remove_pedido_total")
-    // public String deletePedidoTotal() {
-
-    // }
 
     @PostMapping("/remove_itens_pedido")
     public String removeItensPedido(@RequestParam String pedido_id,
