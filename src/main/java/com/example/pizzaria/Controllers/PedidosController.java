@@ -1,11 +1,6 @@
 package com.example.pizzaria.Controllers;
 
 import org.springframework.ui.Model;
-
-import java.util.Arrays;
-import java.util.HashSet;
-
-import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.pizzaria.DAO.CreatePedido;
 import com.example.pizzaria.DAO.RemovePedidos;
 import com.example.pizzaria.DAO.UpdatePedidos;
-// import com.example.pizzaria.DAO.RemovePedidos;
-// import com.example.pizzaria.DAO.UpdatePedidos;
+import com.example.pizzaria.Models.Bebidas;
 import com.example.pizzaria.Models.Pedidos;
+import com.example.pizzaria.Models.Pizzas;
+import com.example.pizzaria.Services.AddProductToPedido;
 import com.example.pizzaria.Services.UserInputChecker;
-import com.example.pizzaria.Utils.HibernateSession;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -25,16 +20,48 @@ import jakarta.servlet.http.HttpServletRequest;
 public class PedidosController {
 
     @PostMapping("/create_pedido")
-    public String insertPedido() {
+    public String insertPedido(@RequestParam String id_cliente, Model model) {
 
         CreatePedido newPedido = new CreatePedido();
-        newPedido.testInsert();
-        newPedido.setPedidosTotais(1, new String[] { "pizza", "bebida", "sobremesa" });
+        String status = newPedido.createNewPedido(id_cliente);
 
-        return "blank";
+        model.addAttribute("status_message", status);
+        return "teste";
     }
 
-    @PostMapping("/update_pedido") // generalizar pra qq produto não só pizzas
+    @PostMapping("/add_itens_pedido")
+    public String addItensPedido(@RequestParam String tipo_produto,
+            @RequestParam String produto, @RequestParam String quantidade,
+            @RequestParam String id_cliente, @RequestParam String id_pedido,
+            Model model) {
+
+        AddProductToPedido addProduct = new AddProductToPedido();
+        String respostaHtml = "";
+
+        switch (tipo_produto) {
+            case "pizza":
+                respostaHtml = addProduct.addProduct("pizzas", "nome", produto,
+                        Pizzas.class, id_pedido, id_cliente,
+                        quantidade, tipo_produto);
+                break;
+
+            case "bebida":
+                respostaHtml = addProduct.addProduct("bebidas", "nome", produto,
+                        Bebidas.class, id_pedido, id_cliente,
+                        quantidade, tipo_produto);
+                break;
+            case "sobremesa":
+                respostaHtml = addProduct.addProduct("sobremesas", "nome", produto,
+                        Bebidas.class, id_pedido, id_cliente,
+                        quantidade, tipo_produto);
+                break;
+        }
+
+        model.addAttribute("status_message", respostaHtml);
+        return "teste";
+    }
+
+    @PostMapping("/update_pedido")
     public String addOrUpdatePedidoController(
             @RequestParam String pedido_id,
             @RequestParam String tipo_produto,
