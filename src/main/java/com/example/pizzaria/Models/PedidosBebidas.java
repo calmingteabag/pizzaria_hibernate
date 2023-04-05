@@ -65,6 +65,16 @@ public class PedidosBebidas implements PedidoProduto {
         this.quantidade = qty;
     };
 
+    public PedidosBebidas(Pedidos pedido, Bebidas bebida, int qty,
+            String nomeProduto, String mapKey, int totalProduto) {
+        this.pedido = pedido;
+        this.bebida = bebida;
+        this.quantidade = qty;
+        this.nomeProduto = nomeProduto;
+        this.mapKey = mapKey;
+        this.totalProduto = totalProduto;
+    }
+
     public int getId() {
         return pedidoBebidasId;
     }
