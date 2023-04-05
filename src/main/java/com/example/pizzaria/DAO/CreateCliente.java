@@ -5,6 +5,7 @@ import com.example.pizzaria.Utils.HibernateSession;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.SelectionQuery;
 
 public class CreateCliente {
 
@@ -28,9 +29,20 @@ public class CreateCliente {
 
             Transaction transaction = session.beginTransaction();
             transaction.commit();
+
+            String searchQuery = String.format("SELECT * FROM %s WHERE %s = :atributo", tableName, columnName);
+
+            SelectionQuery<?> dbQuery = session.createNativeQuery(
+                    searchQuery,
+                    Clientes.class);
+            dbQuery.setParameter("atributo", clientName);
+
+            Clientes getCliente = (Clientes) dbQuery.getSingleResult();
+
             session.close();
 
-            return String.format("O cliente '%s' criado com sucesso.", cliente.getNome());
+            return String.format("O cliente '%s' , id '%s', criado com sucesso.", cliente.getNome(),
+                    getCliente.getId());
         } catch (Exception exception) {
             // handle clientes not existing in db
             return String.format("Foi retornado o erro a seguir: %s", exception.getMessage());
