@@ -11,9 +11,6 @@ body {
     color: white;
 }
 
-/* 
-Main app
-*/
 div.app {
     display: flex;
     flex-direction: column;
@@ -21,9 +18,6 @@ div.app {
     width: 70%;
 }
 
-/* 
-Main app division
-*/
 
 div.app_head {
     height: 10%;
@@ -47,6 +41,7 @@ div.app_content {
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    gap: 1vh;
 }
 
 div.app_footer {
@@ -62,44 +57,104 @@ div.app_footer {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
-form.search_form {
-    height: 60%;
-    width: 100%;
+div.product_cart {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1vw;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 50%;
+    width: 100%;
+    gap: 0.5vh;
 }
 
+div.forms {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 50%;
+    width: 100%;
+    gap: 0.5vh;
+}
+
+form.search_form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+    width: 100%;
+    gap: 0.5vh;
+}
+
+
+div.form_left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vh;
+    gap: 0.5vh;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    width: 75%;
+}
+
+div.form_right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    width: 25%;
+}
+
+
 input.search_input {
-    height: 35%;
+    height: 100%;
     width: 40%;
-    border-radius: 0px;
-    border-radius: 0px;
-    border-style: solid;
+    flex-grow: 1;
+    border: 1px solid rgb(178, 178, 178);
+    box-sizing: border-box;
     color: aquamarine;
+    padding: 1px;
     background-color: rgb(0, 65, 82);
-    font-size: 2.2vh;
+    font-size: 2.0vh;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 input.search_button {
-    height: 35%;
-    width: 25%;
-    border-radius: 0px;
-    border-radius: 0px;
-    border-style: solid;
-    color: aquamarine;
-    background-color: rgb(0, 65, 82);
-    font-size: 2.2vh;
+    height: 100%;
+    width: 100%;
+    border: 1px solid rgb(173, 10, 73);
+    box-sizing: border-box;
+    color: rgb(0, 167, 144);
+    background-color: rgb(52, 0, 28);
+    font-size: 2.0vh;
     font-family: Arial, Helvetica, sans-serif;
+    padding: 1px;
+}
+
+select.product_choice {
+    height: 100%;
+    width: 100%;
+    border: 1px solid rgb(2, 71, 70);
+    color: rgb(0, 167, 144);
+    background-color: rgb(0, 38, 52);
+}
+
+select.product_choice:hover {
+    cursor: pointer;
+    background-color: rgb(0, 96, 95);
 }
 
 input.search_button:hover {
     cursor: pointer;
-    background-color: rgb(3, 198, 252);
+    background-color: rgb(218, 13, 92);
+    color: rgb(83, 245, 182);
 }
 
 a {
