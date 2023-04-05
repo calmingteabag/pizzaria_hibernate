@@ -15,4 +15,8 @@ public interface Produtos {
 
     public void setPreco(int novoPreco);
 
+    public void setPedidoProduto(String pedidoProdutoKey, PedidoProduto pedidoProduto);
+
+    public PedidoProduto getOnePedidoProduto(String pedidoKey);
+
 }
