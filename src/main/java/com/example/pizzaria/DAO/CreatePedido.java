@@ -8,6 +8,8 @@ import com.example.pizzaria.testes_aprendizado.BebidasBusca;
 import com.example.pizzaria.testes_aprendizado.PizzasBusca;
 import com.example.pizzaria.testes_aprendizado.SobremesasBusca;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -15,6 +17,27 @@ public class CreatePedido {
 
     public CreatePedido() {
     };
+
+    public String createNewPedido(String clienteId) {
+        Session session = HibernateSession.getSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            Clientes cliente = session.get(Clientes.class, clienteId);
+
+            Pedidos newPedido = new Pedidos(cliente);
+            newPedido.setNomeCliente(cliente.getNome());
+            session.persist(newPedido);
+            int pedidoId = newPedido.getId();
+            cliente.setPedido(pedidoId, newPedido);
+            transaction.commit();
+
+            return String.format("Pedido id %s criado com sucesso", pedidoId);
+
+        } catch (EntityNotFoundException exception) {
+            return "Cliente Inexistente";
+        }
+    }
 
     public void testInsert() {
         Session session = HibernateSession.getSession();
@@ -119,10 +142,11 @@ public class CreatePedido {
     }
 
     public void setPedidosTotais(int pedidoId, String[] productList) {
+
         Session session = HibernateSession.getSession();
         Transaction transaction = session.beginTransaction();
 
-        Pedidos pedido = session.get(Pedidos.class, 1);
+        Pedidos pedido = session.get(Pedidos.class, pedidoId);
         CalculaValoresPedido calc = new CalculaValoresPedido();
 
         for (int i = 0; i < productList.length; i++) {
@@ -130,7 +154,7 @@ public class CreatePedido {
             pedido.setTotalPedidos(productList[i], currProdutoTotal);
         }
 
-        int totalParcial = calc.calculaTotalGeral(1, productList);
+        int totalParcial = calc.calculaTotalGeral(pedidoId, productList);
         pedido.setTotalParcial(totalParcial);
         pedido.setTotalFinal(totalParcial - pedido.getDesconto());
 
