@@ -23,11 +23,11 @@ public class BuscaProdutos {
     public Produtos buscaProdutoPorNome(String nomeTabela, String nomeColuna,
             String nomeProduto, Class<? extends Produtos> classeProduto) {
         Session session = HibernateSession.getSession();
-        String buscaString = String.format("SELECT * FROM %s WHERE %s = :buscaValorProduto", nomeTabela,
+        String buscaString = String.format("SELECT * FROM %s WHERE %s = :valor", nomeTabela,
                 nomeColuna);
 
         SelectionQuery<?> buscaProdutos = session.createNativeQuery(buscaString, classeProduto);
-        buscaProdutos.setParameter("buscaValorProduto", nomeProduto);
+        buscaProdutos.setParameter("valor", nomeProduto);
         Produtos produto = (Produtos) buscaProdutos.getSingleResult();
 
         return produto;
