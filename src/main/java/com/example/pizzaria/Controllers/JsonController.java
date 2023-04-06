@@ -13,9 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 @ResponseBody
 public class JsonController {
-    
-    @RequestMapping("/see_json")
-    public JSONPedido seeJson(HttpServletRequest request, @RequestParam String pedido_id) {
+
+    @RequestMapping("/visualize_json")
+    public JSONPedido visualizeJson(HttpServletRequest request, @RequestParam String pedido_id) {
         GenerateJSONObject generator = new GenerateJSONObject();
         int pedidoId = Integer.parseInt(pedido_id);
 
