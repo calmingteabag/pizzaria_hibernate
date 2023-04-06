@@ -15,12 +15,17 @@ import com.example.pizzaria.Services.AddProductToPedido;
 import com.example.pizzaria.Services.UserInputChecker;
 
 import jakarta.servlet.http.HttpServletRequest;
+// Notei que fundamentalmente add_itens_pedido e update_pedido teoricamente fazem
+// a mesma coisa. A diferença é que a idéia original do primeiro é ir montando o
+// pedido aos poucos (como um cliente que vai adicionando os itens na cesta de
+// compras) e o último, seria algo como ter um pedido pronto e modificá-lo antes
+// de finalizar a compra.
 
 @Controller
 public class PedidosController {
 
     @PostMapping("/create_pedido")
-    public String insertPedido(@RequestParam String id_cliente, Model model) {
+    public String createPedido(@RequestParam String id_cliente, Model model) {
 
         CreatePedido newPedido = new CreatePedido();
         String status = newPedido.createNewPedido(id_cliente);
@@ -62,7 +67,7 @@ public class PedidosController {
     }
 
     @PostMapping("/update_pedido")
-    public String addOrUpdatePedidoController(
+    public String updatePedido(
             @RequestParam String pedido_id,
             @RequestParam String tipo_produto,
             @RequestParam String nova_quantidade,

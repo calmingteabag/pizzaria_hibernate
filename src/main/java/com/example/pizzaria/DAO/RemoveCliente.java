@@ -1,3 +1,8 @@
+/* 
+ * Essa classe existe, mas não faz sentido no contexto desse app
+ * pois remover um cliente simplesmente quebraria as relações 
+ * no banco de dados.
+ */
 package com.example.pizzaria.DAO;
 
 import org.hibernate.Session;

@@ -5,6 +5,11 @@ import org.springframework.stereotype.Service;
 import com.example.pizzaria.Interfaces.Produtos;
 import com.example.pizzaria.Models.Pedidos;
 
+// Nos meus modelos, eu uso Map<String, _______> ao invés de lista para guardar
+// as referencias do lado 'muitos' no lado 'um', na relação um-para-muitos. "Inventei"
+// esse gerador de hash que basicamente, monta a chave do map com o id de pedidos +
+// id do produto. Pensando agora isso pode por ventura trazer problemas, pq existem
+// 3 produtos com mesmo id, embora pertencentes a modelos diferentes.
 @Service
 public class ProdutoHashMap {
 

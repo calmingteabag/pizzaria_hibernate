@@ -6,6 +6,8 @@ import java.util.Map;
 import com.example.pizzaria.Interfaces.PedidoProduto;
 import com.example.pizzaria.JSON.Produto;
 
+// Como o map de produtos do JSON é muito extenso, resolvi separar a parte
+// de criação dele do resto do JSON
 public class GenerateMapProdutos {
 
     public GenerateMapProdutos() {
