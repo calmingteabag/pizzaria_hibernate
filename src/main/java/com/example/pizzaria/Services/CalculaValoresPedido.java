@@ -9,6 +9,8 @@ import com.example.pizzaria.Interfaces.PedidoProduto;
 import com.example.pizzaria.Models.Pedidos;
 import com.example.pizzaria.Utils.HibernateSession;
 
+// Existem 3 categorias de produtos, então fiz dois métodos, um para
+// retornar o total por categoria e outro para retornar o total.
 @Service
 public class CalculaValoresPedido {
 
