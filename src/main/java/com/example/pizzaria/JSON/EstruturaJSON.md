@@ -5,6 +5,7 @@ fazer uma compra em um supermercado.
 
 O modelo dele em java ficou assim:
 
+```
 JSONPedido {
     InfoCliente {
         idCliente
@@ -23,4 +24,6 @@ JSONPedido {
         totalFinal
     }
 }
+```
+
 
