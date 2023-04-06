@@ -7,6 +7,9 @@ import org.hibernate.query.SelectionQuery;
 
 import com.example.pizzaria.Utils.HibernateSession;
 
+// Olhando agora, esses métodos parecem redundantes, pois uma busca pode ser 
+// feita simplesmente com selectionquery ou outro metodo da session, então usar
+// essa classe adiciona um passo extra talvez desnecessário no codigo.
 public class BuscaProdutos {
 
     public BuscaProdutos() {
