@@ -1,6 +1,6 @@
 
 /*
- * Preenche o DB (Cliente, Pizzas, Bebidas, Sobremesas) com valores de teste.
+ * Preenche o DB (Pizzas, Bebidas, Sobremesas) com valores de teste.
 */
 
 package com.example.pizzaria.DAO;

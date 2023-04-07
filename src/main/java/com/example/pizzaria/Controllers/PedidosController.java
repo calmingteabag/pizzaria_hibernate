@@ -31,7 +31,7 @@ public class PedidosController {
         String status = newPedido.createNewPedido(id_cliente);
 
         model.addAttribute("status_message", status);
-        return "teste";
+        return "index";
     }
 
     @PostMapping("/add_itens_pedido")
@@ -63,7 +63,7 @@ public class PedidosController {
         }
 
         model.addAttribute("status_message", respostaHtml);
-        return "teste";
+        return "index";
     }
 
     @PostMapping("/update_pedido")
@@ -78,7 +78,7 @@ public class PedidosController {
         String status = checker.checkInput(pedido_id, tipo_produto, nova_quantidade, novo_nome);
         if (status != "ok") {
             model.addAttribute("status_message", status);
-            return "teste";
+            return "index";
         }
 
         UpdatePedidos update = new UpdatePedidos();
@@ -87,7 +87,7 @@ public class PedidosController {
 
         model.addAttribute("status_message", resposta);
 
-        return "teste";
+        return "index";
     }
 
     @PostMapping("/remove_itens_pedido")
@@ -101,6 +101,6 @@ public class PedidosController {
 
         model.addAttribute("status_message", resposta);
 
-        return "teste";
+        return "index";
     }
 }

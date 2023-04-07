@@ -1,35 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/index.css}">
+    <link rel="stylesheet" type="text/css" src="index.css">
+
     <title>Pedidos</title>
 </head>
 
 <body>
-    <div class="app">
-        <div class="app_head">
+    <script>
+        function addToCart() {
+            let pizzas = document.getElementById("pizzas").value
+            let pizzas_qty = document.getElementById("quantity").value
+            localStorage.setItem("pizzas", pizzas_qty)
+        }
 
+    </script>
+    <div class="app">
+
+        <div class="app_head">
+            <p> Teste API</p>
         </div>
+
         <div class="app_content">
 
-            <div class="app_content_top"></div>
-            <div class="app_content_middle">
-                <div class="app_content_middle_title"> I forgot how to... </div>
-                <div class="app_content_middle_search">
-                    <form class="search_form" method="POST" action="/db_search" id="search_form">
-                        <input class="search_input" type="text" name="search_items"
-                            placeholder="do a for loop? bake a cake?" id="search_input" />
-                        <input class="search_button" type="submit" id="search_button" value="Go">
-                    </form>
+            <div class="product_cart">
 
-                </div>
+                <form class="search_form" method="POST" action="/create_cliente" id="search_form">
+                    <div class="form_left">
+                        <input class="search_input" placeholder=" Nome" type="text" id="nome" name="form_nome">
+                        <input class="search_input" placeholder=" Sobrenome" type="text" id="sobrenome"
+                            name="form_sobrenome">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" id="search_button" value="Create Cliente">
+                    </div>
+                </form>
+
+                <form class="search_form" method="POST" action="/create_pedido" id="search_form">
+                    <div class="form_left">
+                        <input class="search_input" placeholder=" Id cliente" type="text" id="nome" name="id_cliente">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" id="search_button" value="Create Pedido">
+                    </div>
+                </form>
+
+                <form class="search_form" method="POST" action="/add_itens_pedido" id="search_form">
+                    <input type="hidden" name="tipo_produto" value="pizza">
+                    <div class="form_left">
+                        <select class="product_choice" name="produto" id="lang">
+                            <option value="" disabled selected> Sabor da Pizza</option>
+                            <option value="calabresa">Calabresa</option>
+                            <option value="portuguesa">Portuguesa</option>
+                            <option value="marguerita">Marguerita</option>
+                            <option value="frango_catupiry">Frango com Catupiry</option>
+                            <option value="mucarela">Mucarela</option>
+                            <option value="milho_catupiry">Milho com Catupiry</option>
+                        </select>
+
+                        <select class="product_choice" name="quantidade">
+                            <option value="" disabled selected> Select Quantity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                        <input class="search_input" placeholder=" Id cliente" type="text" id="nome" name="id_cliente">
+                        <input class="search_input" placeholder=" Id pedido" type="text" id="nome" name="id_pedido">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" id="search_button" value="Add Pizza">
+                    </div>
+                </form>
+
+                <form class="search_form" method="POST" action="/add_itens_pedido" id="search_form">
+                    <input type="hidden" name="tipo_produto" value="bebida">
+                    <div class="form_left">
+                        <select class="product_choice" name="produto" id="lang">
+                            <option value="" disabled selected>Selecione Bebidas</option>
+                            <option value="guarana">Guaraná</option>
+                            <option value="coca">Coca-cola</option>
+                            <option value="breja">Cerveja</option>
+                            <option value="agua">Água</option>
+                            <option value="groselha">Groselha</option>
+                        </select>
+
+                        <select class="product_choice" name="quantidade">
+                            <option value="" disabled selected> Select Quantity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                        <input class="search_input" placeholder=" Id cliente" type="text" id="nome" name="id_cliente">
+                        <input class="search_input" placeholder=" Id pedido" type="text" id="nome" name="id_pedido">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" id="search_button" value="Add Bebida">
+                    </div>
+                </form>
+
+                <form class="search_form" method="POST" action="/add_itens_pedido" id="search_form">
+                    <input type="hidden" name="tipo_produto" value="sobremesa">
+                    <div class="form_left">
+                        <select class="product_choice" name="produto" id="lang">
+                            <option value="" disabled selected> Selecione Sobremesas</option>
+                            <option value="sonho">Sonho</option>
+                            <option value="brigadeiro">Brigadeiro</option>
+                            <option value="doce_leite">Doce de Leite</option>
+                            <option value="rapadura">Rapadura</option>
+                            <option value="pacoca">Paçoca</option>
+                        </select>
+
+                        <select class="product_choice" name="quantidade">
+                            <option value="" disabled selected> Select Quantity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                        <input class="search_input" placeholder=" Id cliente" type="text" id="nome" name="id_cliente">
+                        <input class="search_input" placeholder=" Id pedido" type="text" id="nome" name="id_pedido">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" id="search_button" value="Add Sobremesa">
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="forms">
+
+                <form class="search_form" method="POST" action="/update_cliente" id="search_form">
+                    <div class="form_left">
+                        <input class="search_input" placeholder=" Id cliente" type="text" id="nome" name="form_id">
+                        <input class="search_input" placeholder=" Novo nome" type="text" id="nome" name="form_nome">
+                        <input class="search_input" placeholder=" Novo sobrenome" type="text" id="sobrenome"
+                            name="form_sobrenome">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" id="search_button" value="Update Cliente">
+                    </div>
+                </form>
+
+                <form class="search_form" method="POST" action="/update_pedido" id="search_form">
+                    <div class="form_left">
+                        <input class="search_input" placeholder=" Id do pedido" type="text" name="pedido_id">
+                        <input class="search_input" placeholder=" Tipo produto" type="text" name="tipo_produto">
+                        <input class="search_input" placeholder=" Quantidade nova" type="text" name="nova_quantidade">
+                        <input class="search_input" placeholder=" Produto novo" type="text" name="novo_nome">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" value="Add or Update Pedido">
+                    </div>
+                </form>
+
+                <form class="search_form" method="POST" action="/remove_itens_pedido" id="search_form">
+                    <div class="form_left">
+                        <input class="search_input" placeholder="Id do pedido" type="text" name="pedido_id">
+                        <input class="search_input" placeholder="Id do produto" type="text" name="produto_id">
+                        <input class="search_input" placeholder=" Produto para remover" type="text" name="nome_produto">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" value="Remove itens Pedido">
+                    </div>
+                </form>
+
+                <form class="search_form" method="POST" action="/visualize_json" id="search_form">
+                    <div class="form_left">
+                        <input class="search_input" type="text" name="pedido_id">
+                    </div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" value="Ver JSON Pedido">
+                    </div>
+                </form>
+
+                <form class="search_form" method="POST" action="/test_controller" id="search_form">
+                    <div class="form_left"></div>
+                    <div class="form_right">
+                        <input class="search_button" type="submit" value="Test Controller">
+                    </div>
+                </form>
 
             </div>
-            <div class="app_content_bottom">
-            </div>
+        </div>
+
+        <div class="app_footer">
+            status message:<p th:text="${status_message}"></p>
+
+        </div>
+
+
 
 
 </body>

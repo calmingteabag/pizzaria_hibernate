@@ -25,7 +25,7 @@ public class ClientesController {
                 form_sobrenome);
 
         model.addAttribute("insert_feedback", insertFeedback);
-        return "blank";
+        return "index";
     }
 
     @PostMapping("/update_cliente")
@@ -40,7 +40,7 @@ public class ClientesController {
 
         model.addAttribute("insert_feedback", updateFeedback);
 
-        return "blank";
+        return "index";
     }
 
     @PostMapping("/remove_cliente")
@@ -50,6 +50,6 @@ public class ClientesController {
         String feedback = remove.removeClientById(form_id);
         model.addAttribute("insert_feedback", feedback);
 
-        return "blank";
+        return "index";
     }
 }
